@@ -8,10 +8,12 @@ public class ObstacleDetector : MonoBehaviour {
 
     void Start () {
         parent = GetComponentInParent<Movement>();
+        print(parent);
     }
 
     void OnTriggerEnter (Collider other) {
         parent.blockedMove[(int)side]++;
+        print(other);
     }
 
     void OnTriggerExit(Collider other) {
