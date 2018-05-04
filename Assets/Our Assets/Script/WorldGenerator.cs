@@ -154,7 +154,7 @@ public class WorldGenerator : MonoBehaviour {
                  */
 
                 if (world[i, j] == wallCode) {
-                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity);
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<EnemyAI>().SetLocation(new Vector2(i,j));
