@@ -22,7 +22,7 @@ public class EnemyNew : MonoBehaviour {
     }
 
     private IEnumerator updateDest () {
-        WaitForSeconds w = new WaitForSeconds(1f);
+        WaitForSeconds w = new WaitForSeconds(0.1f);
         while (true) {
             yield return w;
             agent.destination = goal.position;
