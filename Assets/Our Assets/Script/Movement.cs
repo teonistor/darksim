@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
-[SerializeField]
-    private GameObject playerAvatar;
-
-    Actions playerActions;
-
     public enum Side { Up, Right, Down, Left };
 
+    [SerializeField] private GameObject playerAvatar;
+    [SerializeField] private float walkSpeed = 0.09f,
+                                   runSpeed = 0.15f;
 
-    [SerializeField] private float speed = 0.1f;
+    private Actions playerActions;
+    private int[] blockedMove = new int[] { 0, 0, 0, 0 };
+    public static float stamina { get; private set; }
+    private bool running = false;
 
-    private int[] blockedMove = new int[] { 0,0,0,0 };
-
-
-void Start () {
+    void Start () {
         playerActions = playerAvatar.GetComponent<Actions>();
-}
+        stamina = 1f;
+    }
 
+    private static float deltaStamina { get {
+        return Time.deltaTime * 0.5f;
+    }}
 
     public int this[Side s] {
         get {
@@ -54,7 +56,7 @@ void Start () {
     }
 
 
-	void Update () {
+    void Update () {
         Vector3 v = new Vector3();
 
         // Get movement input from axes
@@ -68,19 +70,36 @@ void Start () {
         if (blockedLeft && v.x < 0f) v.x = 0f;
 
         // Normalise (no diagonal speedup)
-        v = Vector3.ClampMagnitude(v, 1f) * speed;
+        v = Vector3.ClampMagnitude(v, 1f);
 
-        if (v.x != 0 || v.z != 0) {
-            playerActions.Run();
-            float angle = Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
-            //playerAvatar.transform.rotation = Quaternion.Euler(Vector3.up * angle);
+        // Run status based on run button and stamina
+        if (Input.GetButtonDown("Run")) running = true;
+        if (Input.GetButtonUp("Run") || stamina <= 0f) running = false;
+        print("Stamina " + stamina);
 
+        if (v != Vector3.zero) {
+            if (running) {
+                v *= runSpeed;
+                playerActions.Run();
+                stamina -= deltaStamina;
+            } else {
+                v *= walkSpeed;
+                playerActions.Walk();
+                stamina = Mathf.Min(stamina + deltaStamina, 1f);
+            }
+
+            // Turn towards heading direction
+            float a = Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
             Vector3 r = playerAvatar.transform.localEulerAngles;
-            r.y = Mathf.MoveTowardsAngle(r.y, angle, 666 * Time.deltaTime);
+            r.y = Mathf.MoveTowardsAngle(r.y, a, 666 * Time.deltaTime);
             playerAvatar.transform.localEulerAngles = r;
+
+            // Finally, move
+            transform.position += v;
+
         } else {
             playerActions.Stay();
+            stamina = Mathf.Min(stamina + deltaStamina, 1f);
         }
-        transform.position += v;
     }
 }

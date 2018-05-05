@@ -694,7 +694,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAvatar: {fileID: 1449395866}
-  speed: 0.1
+  walkSpeed: 0.09
+  runSpeed: 0.15
 --- !u!4 &1660330557
 Transform:
   m_ObjectHideFlags: 0
