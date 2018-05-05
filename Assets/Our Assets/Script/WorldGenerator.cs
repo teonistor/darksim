@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 public class WorldGenerator : MonoBehaviour {
 
@@ -31,6 +32,8 @@ public class WorldGenerator : MonoBehaviour {
     [SerializeField]
     private int numberOfEnemies = 1;
 
+    [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
+
     //Codes used in generating the map
     public const int wallCode = 1;
     public const int objectCode = 2;
@@ -57,6 +60,7 @@ public class WorldGenerator : MonoBehaviour {
 
         //executing function to draw the map
         drawMap();
+        navMeshBuilder.UpdateNavMesh();
     }
 
     /// <summary>
@@ -157,7 +161,7 @@ public class WorldGenerator : MonoBehaviour {
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
-                    newEnemy.GetComponent<EnemyAI>().SetLocation(new Vector2(i,j));
+                    newEnemy.GetComponent<EnemyNew>().Setup(player.transform);
                 }
             }
         }
@@ -165,5 +169,26 @@ public class WorldGenerator : MonoBehaviour {
 
     public int[,] getWorld() {
         return world;
+    }
+
+    public Vector2 GetPlayerLoc() {
+        return playerPosition;
+    }
+
+    public int GetWallCode() {
+        return wallCode;
+    }
+
+    public int GetWidth() {
+        return width;
+    }
+    public int GetHeight() {
+        return height;
+    }
+
+    public void Update() {
+        playerPosition.x = player.transform.position.x;
+        playerPosition.y = player.transform.position.z;
+        
     }
 }

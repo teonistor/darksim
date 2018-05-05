@@ -3,36 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
+[SerializeField]
+    private GameObject playerAvatar;
+
+    Actions playerActions;
 
     public enum Side { Up, Right, Down, Left };
 
 
     [SerializeField] private float speed = 0.1f;
 
-    public int[] blockedMove = new int[] { 0,0,0,0 };
-    
+    private int[] blockedMove = new int[] { 0,0,0,0 };
+
+
+void Start () {
+        playerActions = playerAvatar.GetComponent<Actions>();
+}
+
+
+    public int this[Side s] {
+        get {
+            return blockedMove[(int)s];
+        } set {
+            blockedMove[(int)s] = value;
+        }
+    }
 
     private bool blockedUp {
         get {
-            return blockedMove[(int)Side.Up] > 0;
+            return this[Side.Up] > 0;
         }
     }
 
     private bool blockedRight {
         get {
-            return blockedMove[(int)Side.Right] > 0;
+            return this[Side.Right] > 0;
         }
     }
 
     private bool blockedDown {
         get {
-            return blockedMove[(int)Side.Down] > 0;
+            return this[Side.Down] > 0;
         }
     }
 
     private bool blockedLeft {
         get {
-            return blockedMove[(int)Side.Left] > 0;
+            return this[Side.Left] > 0;
         }
     }
 
@@ -53,7 +70,17 @@ public class Movement : MonoBehaviour {
         // Normalise (no diagonal speedup)
         v = Vector3.ClampMagnitude(v, 1f) * speed;
 
-        // Move
+        if (v.x != 0 || v.z != 0) {
+            playerActions.Run();
+            float angle = Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
+            //playerAvatar.transform.rotation = Quaternion.Euler(Vector3.up * angle);
+
+            Vector3 r = playerAvatar.transform.localEulerAngles;
+            r.y = Mathf.MoveTowardsAngle(r.y, angle, 666 * Time.deltaTime);
+            playerAvatar.transform.localEulerAngles = r;
+        } else {
+            playerActions.Stay();
+        }
         transform.position += v;
     }
 }
