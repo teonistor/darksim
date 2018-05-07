@@ -10,13 +10,12 @@ public class EnemyNew : MonoBehaviour {
     private Transform goal;
     private NavMeshAgent agent;
     private Vector3 initialPos;
+    public bool chasing { get; private set; }
 
     void Start () {
-        //goal = new
         agent = GetComponent<NavMeshAgent>();
         initialPos = transform.position;
-        //StartCoroutine(updateDest());
-        //agent.destination = new Vector3(20, 0, 20);
+        chasing = false;
     }
 
     public void Setup (Transform goal) {
@@ -33,13 +32,19 @@ public class EnemyNew : MonoBehaviour {
                              Vector3.Magnitude(delta),
                              Physics.DefaultRaycastLayers,
                              QueryTriggerInteraction.Ignore)) {
-            //print("Chasing player");
             agent.destination = goal.position;
+            if (!chasing) {
+                chasing = true;
+                Ambiance.attackCount++;
+            }
 
         // Last target reached and player not visible => give up
         } else if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilon) {
-            //print("Giving up");
-            agent.destination = initialPos; // TODO send to random location
+            agent.destination = WorldGenerator.randomLoc;
+            if (chasing) {
+                chasing = false;
+                Ambiance.attackCount--;
+            }
         }
 
     }

@@ -799,6 +799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4377110425923982}
   - component: {fileID: 108755349481331798}
+  - component: {fileID: 114319849136748436}
   m_Layer: 8
   m_Name: Overhead light
   m_TagString: Untagged
@@ -1104,7 +1105,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1946311412276180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.109407, y: 0.5, z: 35.0771}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4350614370867658}
@@ -1982,8 +1983,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAvatar: {fileID: 1155301437291546}
-  walkSpeed: 0.09
-  runSpeed: 0.15
+  walkSpeed: 4.5
+  runSpeed: 8
+--- !u!114 &114319849136748436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1906889856856400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddaf0db2fc5093e4bbb1e254d8c0f668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114471151472489556
 MonoBehaviour:
   m_ObjectHideFlags: 1

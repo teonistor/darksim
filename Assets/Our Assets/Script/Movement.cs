@@ -6,8 +6,8 @@ public class Movement : MonoBehaviour {
     public enum Side { Up, Right, Down, Left };
 
     [SerializeField] private GameObject playerAvatar;
-    [SerializeField] private float walkSpeed = 0.09f,
-                                   runSpeed = 0.15f;
+    [SerializeField] private float walkSpeed = 4.5f,
+                                   runSpeed = 8f;
 
     private Actions playerActions;
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };
@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour {
         if (blockedLeft && v.x < 0f) v.x = 0f;
 
         // Normalise (no diagonal speedup)
-        v = Vector3.ClampMagnitude(v, 1f);
+        v = Vector3.ClampMagnitude(v, 1f) * Time.deltaTime;
 
         // Run status based on run button and stamina
         if (Input.GetButtonDown("Run")) running = true;

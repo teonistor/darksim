@@ -134,9 +134,12 @@ public class WorldGenerator : MonoBehaviour {
     public const int enemyCode = 3;
 
 
-    void Start() {
-        world = new int[height, width];
+    //List with possible locations on the map
+    private static List<Vector2> possibleLoc;
 
+    void Start() {
+        possibleLoc = new List<Vector2>();
+        world = new int[height, width];
         //setting player postion to the middle of the map
         playerPosition.x = (int)width / 2;
         playerPosition.y = (int)height / 2;
@@ -369,6 +372,8 @@ public class WorldGenerator : MonoBehaviour {
 
             if(mapChecker[(int)currentPos.x, (int)currentPos.y] > distance) {
                 possibleEnemyLoc.Add(new Vector2(currentPos.x, currentPos.y));
+            } else if (mapChecker[(int)currentPos.x, (int)currentPos.y] > 0) {
+                possibleLoc.Add(new Vector2(currentPos.x, currentPos.y));
             }
         }
 
@@ -415,6 +420,16 @@ public class WorldGenerator : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// A random reachable location on the generated map
+    /// </summary>
+    public static Vector3 randomLoc { get {
+        Vector3 loc = possibleLoc[Random.Range(0, possibleLoc.Count)];
+        loc.z = loc.y;
+        loc.y = 0.5f;
+        return loc;
+    }}
 
     public int[,] getWorld() {
         return world;
