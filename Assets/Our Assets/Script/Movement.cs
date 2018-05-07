@@ -19,10 +19,6 @@ public class Movement : MonoBehaviour {
         stamina = 1f;
     }
 
-    private static float deltaStamina { get {
-        return Time.deltaTime * 0.5f;
-    }}
-
     public int this[Side s] {
         get {
             return blockedMove[(int)s];
@@ -75,17 +71,16 @@ public class Movement : MonoBehaviour {
         // Run status based on run button and stamina
         if (Input.GetButtonDown("Run")) running = true;
         if (Input.GetButtonUp("Run") || stamina <= 0f) running = false;
-        print("Stamina " + stamina);
 
         if (v != Vector3.zero) {
             if (running) {
                 v *= runSpeed;
                 playerActions.Run();
-                stamina -= deltaStamina;
+                stamina -= Time.deltaTime / Difficulty.staminaDrop;
             } else {
                 v *= walkSpeed;
                 playerActions.Walk();
-                stamina = Mathf.Min(stamina + deltaStamina, 1f);
+                stamina = Mathf.Min(stamina + Time.deltaTime / Difficulty.staminaRefillMoving, 1f);
             }
 
             // Turn towards heading direction
@@ -99,7 +94,7 @@ public class Movement : MonoBehaviour {
 
         } else {
             playerActions.Stay();
-            stamina = Mathf.Min(stamina + deltaStamina, 1f);
+            stamina = Mathf.Min(stamina + Time.deltaTime / Difficulty.staminaRefillStaying, 1f);
         }
     }
 }
