@@ -28,7 +28,7 @@ public class Ambiance : MonoBehaviour {
 	}
 
     void FixedUpdate () {
-        t = Mathf.MoveTowards(t, targetT, 2f * Time.deltaTime);
+        t = Mathf.MoveTowards(t, targetT, 1.5f * Time.deltaTime);
         overheadLight.color = Color.Lerp(Color.white, Color.red, t);
     }
 }

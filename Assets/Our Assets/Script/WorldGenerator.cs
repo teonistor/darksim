@@ -399,6 +399,7 @@ public class WorldGenerator : MonoBehaviour {
     /// Function that draws the world.
     /// </summary>
     void drawMap() {
+        int extrapad = 20;
         //double for loop that iterates through the map 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -417,6 +418,27 @@ public class WorldGenerator : MonoBehaviour {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<EnemyNew>().Setup(player.transform);
                 }
+            }
+        }
+        //add more pad
+        for (int i = -extrapad; i < 0; ++i) {
+            for (int j = 0; j < width; ++j) {
+                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = height; i < height+extrapad; ++i) {
+            for (int j = 0; j < width; ++j) {
+                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = -extrapad; i < height+extrapad; ++i) {
+            for (int j = -extrapad; j < 0; ++j) {
+                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = -extrapad; i < height + extrapad; ++i) {
+            for (int j = width; j < width + extrapad; ++j) {
+                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
     }

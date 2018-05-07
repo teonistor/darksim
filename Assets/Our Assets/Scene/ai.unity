@@ -159,7 +159,7 @@ MonoBehaviour:
   height: 50
   width: 50
   dist: 20
-  numberOfEnemies: 1
+  numberOfEnemies: 3
   navMeshBuilder: {fileID: 1868678606}
 --- !u!1001 &837573903
 Prefab:

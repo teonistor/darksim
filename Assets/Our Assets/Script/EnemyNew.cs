@@ -10,11 +10,13 @@ public class EnemyNew : MonoBehaviour {
     private Transform goal;
     private NavMeshAgent agent;
     private Vector3 initialPos;
+    private Animator anim;
     public bool chasing { get; private set; }
 
     void Start () {
         agent = GetComponent<NavMeshAgent>();
         initialPos = transform.position;
+        anim = gameObject.GetComponentInChildren<Animator>();
         chasing = false;
     }
 
@@ -34,7 +36,9 @@ public class EnemyNew : MonoBehaviour {
                              QueryTriggerInteraction.Ignore)) {
             agent.destination = goal.position;
             if (!chasing) {
+                anim.Play("crawl_fast");
                 chasing = true;
+                agent.speed = 4f;
                 Ambiance.attackCount++;
             }
 
@@ -42,7 +46,9 @@ public class EnemyNew : MonoBehaviour {
         } else if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilon) {
             agent.destination = WorldGenerator.randomLoc;
             if (chasing) {
+                anim.Play("crawl");
                 chasing = false;
+                agent.speed = 1.5f;
                 Ambiance.attackCount--;
             }
         }
