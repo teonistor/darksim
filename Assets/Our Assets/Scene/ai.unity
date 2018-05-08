@@ -161,8 +161,9 @@ MonoBehaviour:
   dist: 20
   numberOfEnemies: 0
   navMeshBuilder: {fileID: 1868678606}
-  collectible: {fileID: 0}
-  indicator: {fileID: 0}
+  collectible: {fileID: 1083580665585846, guid: f472826735b2aed47b9553aed9e6465d,
+    type: 2}
+  indicator: {fileID: 1086816111560916, guid: cc26bb13a5ea67b49a777995ef0f8b7b, type: 2}
   gameOverCanvas: {fileID: 513109149}
 --- !u!1 &513109146
 GameObject:
