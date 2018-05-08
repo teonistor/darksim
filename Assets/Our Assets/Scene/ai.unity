@@ -155,11 +155,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1202464443291306, guid: 444c78779a0fc46449d9bdfb609d223f, type: 2}
   enemy: {fileID: 1091816578959678, guid: 112f516e4ddbb0149a093f6f7d8802c5, type: 2}
-  player: {fileID: 1660330552}
+  player: {fileID: 1660330555}
   height: 50
   width: 50
   dist: 20
-  numberOfEnemies: 0
+  numberOfEnemies: 1
   navMeshBuilder: {fileID: 1868678606}
   collectible: {fileID: 1083580665585846, guid: f472826735b2aed47b9553aed9e6465d,
     type: 2}
@@ -486,11 +486,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1106372657}
---- !u!1 &1660330552 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1946311412276180, guid: 81147d66abb7dbb499eb9767d1274652,
+--- !u!114 &1660330555 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114311345071711528, guid: 81147d66abb7dbb499eb9767d1274652,
     type: 2}
   m_PrefabInternal: {fileID: 837573903}
+  m_Script: {fileID: 11500000, guid: e903448f43c51664aa00846f2bc9afa2, type: 3}
 --- !u!1 &1688436453
 GameObject:
   m_ObjectHideFlags: 0

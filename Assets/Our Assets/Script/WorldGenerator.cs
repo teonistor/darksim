@@ -106,7 +106,7 @@ public class WorldGenerator : MonoBehaviour {
 
     //gameobject of the player
     [SerializeField]
-    private GameObject player;
+    private Movement player;
 
     // matrix used for world generation - origin is at top-left.
     private int[,] world;
@@ -129,7 +129,8 @@ public class WorldGenerator : MonoBehaviour {
 
     [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
     [SerializeField] private GameObject collectible, indicator;
-    private static GameObject indicatorS, playerS; // Hack
+    private static GameObject indicatorS; // Hack
+    private static Movement playerS; // Hack
 
     //Game Over canvas
     [SerializeField]

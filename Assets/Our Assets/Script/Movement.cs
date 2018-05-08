@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour {
     [SerializeField] private float walkSpeed = 4.5f,
                                    runSpeed = 8f;
 
-    private Actions playerActions;
+    public Actions playerActions { get; private set; }
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };
     public static float stamina { get; private set; }
     private bool running = false;

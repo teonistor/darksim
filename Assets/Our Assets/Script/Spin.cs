@@ -9,4 +9,3 @@ public class Spin : MonoBehaviour {
         transform.localEulerAngles = rot;
     }
 }
- 
