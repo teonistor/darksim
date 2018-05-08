@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour {
 
     
     private Player player;
-    private Canvas gameOverCanvas;
     public bool chasing { get; private set; }
 
     void Start () {
@@ -29,16 +28,10 @@ public class Enemy : MonoBehaviour {
         chasing = false;
     }
 
-    public void Init (Player player, Canvas gameOverCanvas) {
+    public void Init (Player player) {
         this.player = player;
-        this.gameOverCanvas = gameOverCanvas;
     }
-
-    private float rer (float f) {
-        print("Rer " + f);
-        return f;
-    }
-
+    
     void FixedUpdate () {
         Vector3 delta = player.transform.position - transform.position;
         float dist = Vector3.Magnitude(delta);
@@ -51,7 +44,7 @@ public class Enemy : MonoBehaviour {
             (dist < deafDistance ||
              
             // or looking towards her; and
-             Mathf.Abs(rer(Vector3.Angle(delta, transform.forward))) < visionAngle) &&
+             Mathf.Abs(Vector3.Angle(delta, transform.forward)) < visionAngle) &&
             
             // no wall between enemy and player
             !Physics.Raycast(transform.position,

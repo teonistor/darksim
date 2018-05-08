@@ -132,9 +132,11 @@ public class WorldGenerator : MonoBehaviour {
     private static GameObject indicatorS; // Hack
     private static Player playerS; // Hack
 
-    //Game Over canvas
-    [SerializeField]
-    private Canvas gameOverCanvas;
+    // Menu canvass & static getters
+    [SerializeField] private GameObject pauseCanvas, successCanvas, failCanvas;
+    public static GameObject PauseCanvas { get; private set; }
+    public static GameObject SuccessCanvas { get; private set; }
+    public static GameObject FailCanvas { get; private set; }
 
     //Codes used in generating the map
     public const int wallCode = 1;
@@ -149,6 +151,10 @@ public class WorldGenerator : MonoBehaviour {
         indicatorS = indicator;
         playerS = player;
         possibleLoc = new List<Vector2>();
+
+        PauseCanvas = pauseCanvas;
+        SuccessCanvas = successCanvas;
+        FailCanvas = failCanvas;
 
         world = new int[height, width];
         //setting player postion to the middle of the map
@@ -427,7 +433,7 @@ public class WorldGenerator : MonoBehaviour {
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
-                    newEnemy.GetComponent<Enemy>().Init(player, gameOverCanvas);
+                    newEnemy.GetComponent<Enemy>().Init(player);
                 }
             }
         }
@@ -484,10 +490,8 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.R) && gameOverCanvas.isActiveAndEnabled)
-            SceneManager.LoadScene(1);
-        else if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.sceneCount < 2)
-            SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.sceneCount < 2)
+            pauseCanvas.SetActive(true);
     }
 
     public static TargetIndicator CreateTargetIndicator(Collect target) {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour {
     public enum Side { Up, Right, Down, Left };
@@ -110,7 +111,15 @@ public class Player : MonoBehaviour {
             if (Health < 0f) {
                 enabled = false;
                 PlayerActions.Death();
+                StartCoroutine(delayFailMenu());
+            } else {
+                PlayerActions.Damage();
             }
         }
+    }
+
+    private IEnumerator delayFailMenu () {
+        yield return new WaitForSeconds(3f); // Duration of death animation
+        WorldGenerator.FailCanvas.SetActive(true);
     }
 }
