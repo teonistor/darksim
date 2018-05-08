@@ -4,100 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class WorldGenerator : MonoBehaviour {
 
-    //Array with rooms:
-    int[][][] rooms = new int[][][] {
-        new int[][] {
-            new int[] {1, 1, 1, 1, 1, 1},
-            new int[] {1, 1, 1, 1, 1, 1},
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0}
-
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 1, 0, 0},
-            new int[] {0, 0, 0, 1, 0, 0},
-            new int[] {0, 0, 0, 1, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 1, 0, 0},
-            new int[] {0, 0, 0, 1, 0, 0},
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {1, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 1, 0, 1, 0, 0},
-            new int[] {0, 1, 0, 0, 0, 0},
-            new int[] {0, 1, 0, 0, 0, 1},
-            new int[] {0, 1, 1, 1, 1, 1},
-            new int[] {0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 1, 0, 1, 0, 0},
-            new int[] {0, 1, 0, 1, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0},
-            new int[] {0, 1, 1, 1, 1, 0},
-            new int[] {0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0},
-            new int[] {0, 0, 0, 0, 1, 0},
-            new int[] {0, 0, 0, 0, 1, 0},
-            new int[] {1, 1, 0, 0, 1, 0},
-            new int[] {0, 0, 0, 0, 1, 0},
-            new int[] {0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            new int[] {0, 1, 1, 1, 0, 0, 1, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 1, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 1, 1, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 1, 1, 1, 1, 1, 1, 0},
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            new int[] {0, 1, 1, 1, 0, 0, 1, 1, 0},
-            new int[] {0, 1, 0, 1, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 1, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 1, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 1, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 1, 1, 1, 1, 1, 1, 0},
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}
-        },
-        new int[][] {
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            new int[] {0, 1, 1, 1, 0, 0, 1, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 0, 0, 0, 0, 0, 1, 0},
-            new int[] {0, 1, 1, 0, 0, 1, 1, 1, 0},
-            new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}
-        }
-    };
-
-
     //prefabs for wall and enemy
     [SerializeField]
     private GameObject wall;
@@ -184,10 +90,10 @@ public class WorldGenerator : MonoBehaviour {
     /// </summary>
     void pad() {
         for (int i = 0; i < height; ++i) {
-            world[i, width - 1] = world[i, 0] = wallCode;
+            world[i, width - 1] = world[i, 0] = 0;
         }
         for (int j = 0; j < width; ++j) {
-            world[0, j] = world[height - 1, j] = wallCode;
+            world[0, j] = world[height - 1, j] = 0;
         }
     }
 
@@ -334,13 +240,13 @@ public class WorldGenerator : MonoBehaviour {
             for(int j = 0; j < width; ++j) {
                 if (roomMap[i,j] == 0) {
                     //generate room
-                    int roomId = generator.Next(0, rooms.Length);
-                    for (int k = 0; k < rooms[roomId].Length; ++k) {
-                        for (int r = 0; r < rooms[roomId][k].Length; ++r) {
+                    int roomId = generator.Next(0, RoomData.rooms.Length);
+                    for (int k = 0; k < RoomData.rooms[roomId].Length; ++k) {
+                        for (int r = 0; r < RoomData.rooms[roomId][k].Length; ++r) {
                             if(i+k < height && j+r < width && roomMap[i+k,j+r] == 0) {
-                                world[i + k, j + r] = rooms[roomId][k][r];
+                                world[i + k, j + r] = RoomData.rooms[roomId][k][r];
                                 roomMap[i + k, j + r] = 1;
-                                //print(rooms[roomId][k][r]);
+                                //print(RoomData.rooms[roomId][k][r]);
                             }
                         }
                     }
@@ -374,7 +280,7 @@ public class WorldGenerator : MonoBehaviour {
             Vector3 currentPos = qu.Dequeue();
             
             //checking if current position was visited
-            if(mapChecker[(int)currentPos.x, (int)currentPos.y] != 0)
+            if(currentPos.x < 0 || currentPos.y < 0 || currentPos.x >= height || currentPos.y >= width || mapChecker[(int)currentPos.x, (int)currentPos.y] != 0)
                 continue;
             //checking if current position is empty
             if (world[(int)currentPos.x, (int)currentPos.y] != 0)
