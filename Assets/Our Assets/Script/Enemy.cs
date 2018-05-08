@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour {
                           deafDistance = 2f,
                           visionAngle = 40f,
                           runSpeed = 4f,
-                          crawlSpeed = 0;// 1.5f;
+                          crawlSpeed = 1.5f;
    
     private NavMeshAgent agent;
     private Vector3 initialPos;
