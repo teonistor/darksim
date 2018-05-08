@@ -5,12 +5,16 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyNew : MonoBehaviour {
-    static readonly float epsilon = 0.01f;
+    static readonly float epsilon = 0.1f;
 
     private Transform goal;
     private NavMeshAgent agent;
     private Vector3 initialPos;
     private Animator anim;
+
+    
+    private GameObject player;
+    private Canvas gameOverCanvas;
     public bool chasing { get; private set; }
 
     void Start () {
@@ -20,8 +24,10 @@ public class EnemyNew : MonoBehaviour {
         chasing = false;
     }
 
-    public void Setup (Transform goal) {
+    public void Setup (Transform goal, GameObject player, Canvas gameOverCanvas) {
         this.goal = goal;
+        this.player = player;
+        this.gameOverCanvas = gameOverCanvas;
     }
 
     void FixedUpdate () {
@@ -41,7 +47,10 @@ public class EnemyNew : MonoBehaviour {
                 agent.speed = 4f;
                 Ambiance.attackCount++;
             }
-
+            if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilon) {
+                player.GetComponent<Movement>().enabled = false;
+                gameOverCanvas.gameObject.SetActive(true);
+            }
         // Last target reached and player not visible => give up
         } else if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilon) {
             agent.destination = WorldGenerator.randomLoc;
@@ -50,6 +59,7 @@ public class EnemyNew : MonoBehaviour {
                 chasing = false;
                 agent.speed = 1.5f;
                 Ambiance.attackCount--;
+                
             }
         }
 

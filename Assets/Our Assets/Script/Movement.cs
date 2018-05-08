@@ -96,5 +96,6 @@ public class Movement : MonoBehaviour {
             playerActions.Stay();
             stamina = Mathf.Min(stamina + Time.deltaTime / Difficulty.staminaRefillStaying, 1f);
         }
+
     }
 }

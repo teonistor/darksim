@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 public class WorldGenerator : MonoBehaviour {
 
     //Array with rooms:
@@ -127,6 +128,10 @@ public class WorldGenerator : MonoBehaviour {
     private int numberOfEnemies = 1;
 
     [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
+
+    //Game Over canvas
+    [SerializeField]
+    private Canvas gameOverCanvas;
 
     //Codes used in generating the map
     public const int wallCode = 1;
@@ -416,7 +421,7 @@ public class WorldGenerator : MonoBehaviour {
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
-                    newEnemy.GetComponent<EnemyNew>().Setup(player.transform);
+                    newEnemy.GetComponent<EnemyNew>().Setup(player.transform, player, gameOverCanvas);
                 }
             }
         }
@@ -473,8 +478,9 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public void Update() {
-        playerPosition.x = player.transform.position.x;
-        playerPosition.y = player.transform.position.z;
+        if (Input.GetKeyDown(KeyCode.R) && gameOverCanvas.isActiveAndEnabled) {
+            SceneManager.LoadScene(0);
+        }
         
     }
 }
