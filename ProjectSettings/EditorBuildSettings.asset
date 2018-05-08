@@ -6,5 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Our Assets/Scene/gameBak1.unity
+    guid: 6b2d33e22f1a5de4fb68279f43694829
+  - enabled: 1
     path: Assets/Our Assets/Scene/ai.unity
     guid: 852dda0a93f2bc54c93c35f5698fecd9
+  - enabled: 1
+    path: Assets/Our Assets/Scene/wut.unity
+    guid: 6f356e2ee54a03c47b5d6852e1faf743

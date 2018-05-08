@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Light))]
 public class Ambiance : MonoBehaviour {
 
-    private static IList<EnemyNew> enemies;
+    private static IList<Enemy> enemies;
     private static Light overheadLight;
     public static int attackCount {
         get {
@@ -21,7 +21,7 @@ public class Ambiance : MonoBehaviour {
     private static int _attackCount;
 
 	void Start () {
-        enemies = new List<EnemyNew>();
+        enemies = new List<Enemy>();
         overheadLight = GetComponent<Light>();
         attackCount = 0;
         t = targetT = 0f;

@@ -21,10 +21,11 @@ public class Difficulty : MonoBehaviour {
 	public static float difficulty { get; private set; }
 
     // TODO
-    public static float staminaDrop { get { return 4f; } }
-    public static float staminaRefillMoving { get { return 8.5f; } }
-    public static float staminaRefillStaying { get { return 6.2f; } } // Quite arbitrary?
+    public static float StaminaDrop { get { return 4f; } }
+    public static float StaminaRefillMoving { get { return 8.5f; } }
+    public static float StaminaRefillStaying { get { return 6.2f; } } // Quite arbitrary?
+    public static float HealthDrop { get { return 0.4f; } }
 
     // This is more about level progression
-    public static int mapSize { get; private set; }
+    public static int MapSize { get; private set; }
 }

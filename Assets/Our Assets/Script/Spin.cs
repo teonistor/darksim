@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Give an object a spin around Y axis
+/// </summary>
 public class Spin : MonoBehaviour {
     [SerializeField] private float speed = 0.5f;
 

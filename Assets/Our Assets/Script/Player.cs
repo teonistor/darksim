@@ -1,22 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class Player : MonoBehaviour {
     public enum Side { Up, Right, Down, Left };
 
     [SerializeField] private GameObject playerAvatar;
     [SerializeField] private float walkSpeed = 4.5f,
                                    runSpeed = 8f;
 
-    public Actions playerActions { get; private set; }
+    public static Player Instance { get; private set; }
+    public Actions PlayerActions { get; private set; }
+    public static float Stamina { get; private set; }
+    public static float Health { get; private set; }
+
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };
-    public static float stamina { get; private set; }
+    private float lastDamageTaken = 0f;
     private bool running = false;
 
     void Start () {
-        playerActions = playerAvatar.GetComponent<Actions>();
-        stamina = 1f;
+        Instance = this;
+        PlayerActions = playerAvatar.GetComponent<Actions>();
+        Stamina = 1f;
+        Health = 1f;
     }
 
     public int this[Side s] {
@@ -70,17 +74,17 @@ public class Movement : MonoBehaviour {
 
         // Run status based on run button and stamina
         if (Input.GetButtonDown("Run")) running = true;
-        if (Input.GetButtonUp("Run") || stamina <= 0f) running = false;
+        if (Input.GetButtonUp("Run") || Stamina <= 0f) running = false;
 
         if (v != Vector3.zero) {
             if (running) {
                 v *= runSpeed;
-                playerActions.Run();
-                stamina -= Time.deltaTime / Difficulty.staminaDrop;
+                PlayerActions.Run();
+                Stamina -= Time.deltaTime / Difficulty.StaminaDrop;
             } else {
                 v *= walkSpeed;
-                playerActions.Walk();
-                stamina = Mathf.Min(stamina + Time.deltaTime / Difficulty.staminaRefillMoving, 1f);
+                PlayerActions.Walk();
+                Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillMoving, 1f);
             }
 
             // Turn towards heading direction
@@ -93,9 +97,20 @@ public class Movement : MonoBehaviour {
             transform.position += v;
 
         } else {
-            playerActions.Stay();
-            stamina = Mathf.Min(stamina + Time.deltaTime / Difficulty.staminaRefillStaying, 1f);
+            PlayerActions.Stay();
+            Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillStaying, 1f);
         }
 
+    }
+
+    public void DealDamage () {
+        if (Time.time - lastDamageTaken > 3f) {
+            lastDamageTaken = Time.time;
+            Health -= Difficulty.HealthDrop;
+            if (Health < 0f) {
+                enabled = false;
+                PlayerActions.Death();
+            }
+        }
     }
 }

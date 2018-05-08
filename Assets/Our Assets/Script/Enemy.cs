@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyNew : MonoBehaviour {
+public class Enemy : MonoBehaviour {
     static readonly float epsilonTarget = 0.1f,
                           epsilonHit = 0.6f,
                           blindDistance = 10f,
@@ -12,16 +12,13 @@ public class EnemyNew : MonoBehaviour {
                           visionAngle = 40f,
                           runSpeed = 4f,
                           crawlSpeed = 0;// 1.5f;
-
-    //[SerializeField] private LayerMask wall
-
-    private Transform goal;
+   
     private NavMeshAgent agent;
     private Vector3 initialPos;
     private Animator anim;
 
     
-    private Movement player;
+    private Player player;
     private Canvas gameOverCanvas;
     public bool chasing { get; private set; }
 
@@ -32,8 +29,7 @@ public class EnemyNew : MonoBehaviour {
         chasing = false;
     }
 
-    public void Setup (Transform goal, Movement player, Canvas gameOverCanvas) {
-        this.goal = goal;
+    public void Init (Player player, Canvas gameOverCanvas) {
         this.player = player;
         this.gameOverCanvas = gameOverCanvas;
     }
@@ -44,7 +40,7 @@ public class EnemyNew : MonoBehaviour {
     }
 
     void FixedUpdate () {
-        Vector3 delta = goal.position - transform.position;
+        Vector3 delta = player.transform.position - transform.position;
         float dist = Vector3.Magnitude(delta);
         Debug.DrawRay(transform.position, delta, Color.white);
 
@@ -64,7 +60,7 @@ public class EnemyNew : MonoBehaviour {
                              LayerMask.GetMask("Wall"))) {
 
             // ...=> Chase player
-            agent.destination = goal.position;
+            agent.destination = player.transform.position;
             if (!chasing) {
                 anim.Play("crawl_fast");
                 chasing = true;
@@ -74,9 +70,7 @@ public class EnemyNew : MonoBehaviour {
 
             // Player caught => game over / deal damage
             if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilonHit) {
-                player.playerActions.Death();
-                player.enabled = false;
-                enabled = false;
+                player.DealDamage();
                 //gameOverCanvas.gameObject.SetActive(true);
             }
 

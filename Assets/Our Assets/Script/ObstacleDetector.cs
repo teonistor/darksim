@@ -2,12 +2,12 @@
 
 [RequireComponent(typeof(Collider))]
 public class ObstacleDetector : MonoBehaviour {
-    [SerializeField] private Movement.Side side;
+    [SerializeField] private Player.Side side;
 
-    private Movement parent;
+    private Player parent;
 
     void Start () {
-        parent = GetComponentInParent<Movement>();
+        parent = GetComponentInParent<Player>();
     }
 
     void OnTriggerEnter (Collider other) {

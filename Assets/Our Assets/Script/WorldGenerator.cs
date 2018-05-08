@@ -106,7 +106,7 @@ public class WorldGenerator : MonoBehaviour {
 
     //gameobject of the player
     [SerializeField]
-    private Movement player;
+    private Player player;
 
     // matrix used for world generation - origin is at top-left.
     private int[,] world;
@@ -130,7 +130,7 @@ public class WorldGenerator : MonoBehaviour {
     [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
     [SerializeField] private GameObject collectible, indicator;
     private static GameObject indicatorS; // Hack
-    private static Movement playerS; // Hack
+    private static Player playerS; // Hack
 
     //Game Over canvas
     [SerializeField]
@@ -427,7 +427,7 @@ public class WorldGenerator : MonoBehaviour {
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
-                    newEnemy.GetComponent<EnemyNew>().Setup(player.transform, player, gameOverCanvas);
+                    newEnemy.GetComponent<Enemy>().Init(player, gameOverCanvas);
                 }
             }
         }
@@ -484,10 +484,10 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.R) && gameOverCanvas.isActiveAndEnabled) {
-            SceneManager.LoadScene(0);
-        }
-        
+        if (Input.GetKeyDown(KeyCode.R) && gameOverCanvas.isActiveAndEnabled)
+            SceneManager.LoadScene(1);
+        else if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.sceneCount < 2)
+            SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
     }
 
     public static TargetIndicator CreateTargetIndicator(Collect target) {

@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 4867965626927840}
   - component: {fileID: 331621533523066078}
   - component: {fileID: 212034113364896370}
-  - component: {fileID: 114471151472489556}
+  - component: {fileID: 114635830054242766}
   m_Layer: 0
   m_Name: Health Gauge
   m_TagString: Player
@@ -2065,17 +2065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddaf0db2fc5093e4bbb1e254d8c0f668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114471151472489556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1996145968488284}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042f4fdaf15cbfc4b892b4697c908bcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114575156715999680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2100,6 +2089,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 1
+--- !u!114 &114635830054242766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996145968488284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d667969b9226347bff21db2ddb0f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114775461692265684
 MonoBehaviour:
   m_ObjectHideFlags: 1
