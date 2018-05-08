@@ -9,7 +9,7 @@ public class Difficulty : MonoBehaviour {
      * - Enemy speed
      * - Overhead light angle
      * - Enemy visibility angle
-     * 
+ 
      * What to change by level progression:
      * - Map size (and thus minimum distance to enemies)
      * - Number of keys

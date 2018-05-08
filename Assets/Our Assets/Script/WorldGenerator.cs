@@ -128,6 +128,8 @@ public class WorldGenerator : MonoBehaviour {
     private int numberOfEnemies = 1;
 
     [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
+    [SerializeField] private GameObject collectible, indicator;
+    private static GameObject indicatorS, playerS; // Hack
 
     //Game Over canvas
     [SerializeField]
@@ -143,7 +145,10 @@ public class WorldGenerator : MonoBehaviour {
     private static List<Vector2> possibleLoc;
 
     void Start() {
+        indicatorS = indicator;
+        playerS = player;
         possibleLoc = new List<Vector2>();
+
         world = new int[height, width];
         //setting player postion to the middle of the map
         playerPosition.x = (int)width / 2;
@@ -482,5 +487,11 @@ public class WorldGenerator : MonoBehaviour {
             SceneManager.LoadScene(0);
         }
         
+    }
+
+    public static TargetIndicator CreateTargetIndicator(Collect target) {
+        TargetIndicator indicator = Instantiate(indicatorS).GetComponent<TargetIndicator>();
+        indicator.Init(target.transform, Camera.main, playerS.transform);
+        return indicator;
     }
 }
