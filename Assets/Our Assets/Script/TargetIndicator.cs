@@ -45,7 +45,6 @@ public class TargetIndicator : MonoBehaviour {
             //float angl = Mathf.Atan(scrp.y/ scrp.x);
             scrp = target.position - player.position;
             float angl = Mathf.Atan2(scrp.z, scrp.x);
-            print("Angle " + angl*Mathf.Rad2Deg + " x z " + scrp);
 
             scrp.x = Mathf.Cos(angl) * hw + hw;
             scrp.y = Mathf.Sin(angl) * hh + hh;

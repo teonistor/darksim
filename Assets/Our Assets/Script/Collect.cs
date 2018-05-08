@@ -16,6 +16,28 @@ public class Collect : MonoBehaviour {
 
 	}
 
+    void OnTriggerEnter(Collider other) {
+        print ("Collected something!");
+
+        StartCoroutine(destroyAnimation());
+        GetComponent<Collider>().enabled = false;
+        Destroy(indicator);
+    }
+
+    private IEnumerator destroyAnimation () {
+        float frame = 1f / 30;
+        WaitForSeconds wait = new WaitForSeconds(frame);
+        frame *= 2;
+
+        Vector3 s = transform.localScale;
+
+        for (float t = 0f; t <= 1f; t += frame) {
+            transform.localScale = Vector3.Lerp(s, Vector3.zero, t);
+            yield return wait;
+        }
+
+        Destroy(gameObject);
+    }
 
     // Disused
     // For demo unity logo
