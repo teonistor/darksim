@@ -32,6 +32,8 @@ public class WorldGenerator : MonoBehaviour {
     //number of enemies 
     [SerializeField]
     private int numberOfEnemies = 1;
+    [SerializeField]
+    private int numberOfObjects = 3;
 
     [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
     [SerializeField] private GameObject collectible, indicator;
@@ -52,17 +54,16 @@ public class WorldGenerator : MonoBehaviour {
 
     //List with possible locations on the map
     private static List<Vector2> possibleLoc;
-
+    private static List<Vector2> possibleObjectLoc;
     void Start() {
         indicatorS = indicator;
         playerS = player;
         possibleLoc = new List<Vector2>();
-
-        PauseCanvas = pauseCanvas;
+	possibleObjectLoc = new List<Vector2>();
+	PauseCanvas = pauseCanvas;
         SuccessCanvas = successCanvas;
         FailCanvas = failCanvas;
-
-        world = new int[height, width];
+       world = new int[height, width];
         //setting player postion to the middle of the map
         playerPosition.x = (int)width / 2;
         playerPosition.y = (int)height / 2;
@@ -103,7 +104,6 @@ public class WorldGenerator : MonoBehaviour {
     void generateRandomWorld() {
         int[,] roomMap = new int[height, width];
         System.Random generator = new System.Random();
-        int chance = 5;
         int startingRoomDim = generator.Next(4,6);
         if (startingRoomDim >= width / 2 || startingRoomDim >= height / 2) {
             return;
@@ -253,7 +253,6 @@ public class WorldGenerator : MonoBehaviour {
                 }
             }
         }
-
     }
 
     /// <summary>
@@ -282,8 +281,9 @@ public class WorldGenerator : MonoBehaviour {
             //checking if current position was visited
             if(currentPos.x < 0 || currentPos.y < 0 || currentPos.x >= height || currentPos.y >= width || mapChecker[(int)currentPos.x, (int)currentPos.y] != 0)
                 continue;
+
             //checking if current position is empty
-            if (world[(int)currentPos.x, (int)currentPos.y] != 0)
+            if (world[(int)currentPos.x, (int)currentPos.y] == wallCode)
                 continue;
 
             mapChecker[(int)currentPos.x, (int)currentPos.y] = (int)currentPos.z;
@@ -293,8 +293,12 @@ public class WorldGenerator : MonoBehaviour {
             qu.Enqueue(currentPos + new Vector3(-1, 0, 1));
             qu.Enqueue(currentPos + new Vector3(0, -1, 1));
 
-            if(mapChecker[(int)currentPos.x, (int)currentPos.y] > distance) {
+            if (world[(int)currentPos.x, (int)currentPos.y] == objectCode) {
+                possibleObjectLoc.Add(new Vector2(currentPos.x, currentPos.y));
+                world[(int)currentPos.x, (int)currentPos.y] = 0;
+            }else if (mapChecker[(int)currentPos.x, (int)currentPos.y] > distance) {
                 possibleEnemyLoc.Add(new Vector2(currentPos.x, currentPos.y));
+                possibleLoc.Add(new Vector2(currentPos.x, currentPos.y));
             } else if (mapChecker[(int)currentPos.x, (int)currentPos.y] > 0) {
                 possibleLoc.Add(new Vector2(currentPos.x, currentPos.y));
             }
@@ -308,7 +312,16 @@ public class WorldGenerator : MonoBehaviour {
             world[(int)nextEnemy.x, (int)nextEnemy.y] = enemyCode;
             numberOfEnemies--;  
         }
-
+        
+        while(numberOfObjects > 0) {
+            if (possibleObjectLoc.Count == 0)
+                break;
+            int nextObjectIndex = rnd.Next(0, possibleObjectLoc.Count);
+            Vector2 nextObject = possibleObjectLoc[nextObjectIndex];
+            possibleObjectLoc.RemoveAt(nextObjectIndex);
+            world[(int)nextObject.x, (int)nextObject.y] = objectCode;
+            numberOfObjects--;
+        }
         //Filling blank spots that can't be reached
 
         for(int i = 0; i < height; ++i) {
@@ -340,6 +353,8 @@ public class WorldGenerator : MonoBehaviour {
                 }else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<Enemy>().Init(player);
+                }else if (world[i, j] == objectCode) {
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y / 2, j), Quaternion.identity, transform);
                 }
             }
         }

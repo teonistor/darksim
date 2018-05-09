@@ -160,6 +160,7 @@ MonoBehaviour:
   width: 50
   dist: 20
   numberOfEnemies: 1
+  numberOfObjects: 3
   navMeshBuilder: {fileID: 1868678606}
   collectible: {fileID: 1083580665585846, guid: f472826735b2aed47b9553aed9e6465d,
     type: 2}
@@ -449,22 +450,6 @@ Prefab:
     - target: {fileID: 4244669225778278, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4083964153482116, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4282551855831148, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4881714359136202, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4300222613148472, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
