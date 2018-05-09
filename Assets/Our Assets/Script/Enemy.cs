@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour {
                 anim.Play("crawl_fast");
                 chasing = true;
                 agent.speed = runSpeed;
-                Ambiance.attackCount++;
+                Ambiance.AttackCount++;
             }
 
             // Player caught => game over / deal damage
@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour {
                 anim.Play("crawl");
                 chasing = false;
                 agent.speed = crawlSpeed;
-                Ambiance.attackCount--;
+                Ambiance.AttackCount--;
                 
             }
         }

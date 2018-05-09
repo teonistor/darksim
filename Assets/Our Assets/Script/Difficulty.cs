@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Difficulty : MonoBehaviour {
 
     /* What to change by difficulty:
@@ -17,8 +18,19 @@ public class Difficulty : MonoBehaviour {
      * 
      */
 
+    private static bool firstRun = true;
 
+    public static float CurrentDifficulty { get; private set; }
+
+    /// <summary>
+    /// Current difficulty tweak, between 0 (speed) and 1 (light)
+    /// </summary>
 	public static float difficulty { get; private set; }
+
+    /// <summary>
+    /// Current level
+    /// </summary>
+    public static int level { get; private set; }
 
     // TODO
     public static float StaminaDrop { get { return 4f; } }
@@ -28,4 +40,24 @@ public class Difficulty : MonoBehaviour {
 
     // This is more about level progression
     public static int MapSize { get; private set; }
+
+
+    void Awake () {
+        if (firstRun) {
+            CurrentDifficulty = 0.5f;
+        }
+    }
+
+    void Update () {
+
+    }
+
+
+    public static void CollectSpeed () {
+
+    }
+
+    public static void CollectLight () {
+
+    }
 }

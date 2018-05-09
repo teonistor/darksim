@@ -7,28 +7,41 @@ public class Ambiance : MonoBehaviour {
 
     private static IList<Enemy> enemies;
     private static Light overheadLight;
-    public static int attackCount {
+
+    /// <summary>
+    /// Number of attacking entities currently counting towards the red shade of the overhead light
+    /// </summary>
+    public static int AttackCount {
         get {
             return _attackCount;
         }
         set {
             _attackCount = value;
-            targetT = 0.5f - Mathf.Pow(2f, -value - 1);
+            colorT = 0.5f - Mathf.Pow(2f, -value - 1);
         }
     }
 
-    private static float t, targetT;
+    public static float SpotAngle {
+        get {
+            return overheadLight.spotAngle;
+        }
+        set {
+            overheadLight.spotAngle = value;
+        }
+    }
+
+    private static float colorC, colorT;
     private static int _attackCount;
 
 	void Start () {
         enemies = new List<Enemy>();
         overheadLight = GetComponent<Light>();
-        attackCount = 0;
-        t = targetT = 0f;
+        AttackCount = 0;
+        colorC = colorT = 0f;
 	}
 
     void FixedUpdate () {
-        t = Mathf.MoveTowards(t, targetT, 1.5f * Time.deltaTime);
-        overheadLight.color = Color.Lerp(Color.white, Color.red, t);
+        colorC = Mathf.MoveTowards(colorC, colorT, 1.5f * Time.deltaTime);
+        overheadLight.color = Color.Lerp(Color.white, Color.red, colorC);
     }
 }
