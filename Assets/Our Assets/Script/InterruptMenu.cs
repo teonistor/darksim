@@ -1,4 +1,5 @@
 ﻿using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class InterruptMenu : MonoBehaviour {
@@ -12,12 +13,14 @@ public class InterruptMenu : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown(KeyCode.Escape) && menu == Menu.Pause)
             gameObject.SetActive(false);
-        else if (Input.GetKeyDown(KeyCode.R) && menu != Menu.Success)
+        else if (Input.GetKeyDown(KeyCode.R) && menu != Menu.Success) {
+            GetComponentInChildren<Text>().text = "Loading...";
             SceneManager.LoadSceneAsync(1);
-        else if (Input.GetKeyDown(KeyCode.E) && menu == Menu.Success)
+        } else if (Input.GetKeyDown(KeyCode.E) && menu == Menu.Success) {
+            GetComponentInChildren<Text>().text = "Loading...";
             // TODO level progression
             SceneManager.LoadSceneAsync(1);
-        else if (Input.GetKeyDown(KeyCode.Q))
+        } else if (Input.GetKeyDown(KeyCode.Q))
             SceneManager.LoadSceneAsync(0);
     }
 
