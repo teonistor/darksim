@@ -14,12 +14,13 @@ public class InterruptMenu : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape) && menu == Menu.Pause)
             gameObject.SetActive(false);
         else if (Input.GetKeyDown(KeyCode.R) && menu != Menu.Success) {
-            GetComponentInChildren<Text>().text = "Loading...";
             SceneManager.LoadSceneAsync(1);
+            GetComponentInChildren<Text>().text = "Loading...";
+            Difficulty.RetryLevel();
         } else if (Input.GetKeyDown(KeyCode.E) && menu == Menu.Success) {
-            GetComponentInChildren<Text>().text = "Loading...";
-            // TODO level progression
             SceneManager.LoadSceneAsync(1);
+            GetComponentInChildren<Text>().text = "Loading...";
+            Difficulty.NextLevel();
         } else if (Input.GetKeyDown(KeyCode.Q))
             SceneManager.LoadSceneAsync(0);
     }

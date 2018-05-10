@@ -465,7 +465,7 @@ public class WorldGenerator : MonoBehaviour {
             pauseCanvas.SetActive(true);
     }
 
-    public static TargetIndicator CreateTargetIndicator(Collect target) {
+    public static TargetIndicator CreateTargetIndicator(MonoBehaviour target) {
         TargetIndicator indicator = Instantiate(indicatorS).GetComponent<TargetIndicator>();
         indicator.Init(target.transform, Camera.main, playerS.transform);
         return indicator;

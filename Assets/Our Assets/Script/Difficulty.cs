@@ -117,14 +117,17 @@ public class Difficulty : MonoBehaviour {
         CheckFirstKeyCollect();
         KeysCollected++;
         if (KeysCollected == KeysNecessary) {
-            print("Open door");
-            // TODO
+            Door.Open();
         }
     }
 
     public static void BeginGame () {
         KeysCollected = 0;
         CurrentLevel = 1;
+    }
+
+    public static void RetryLevel () {
+        KeysCollected = 0;
     }
 
     public static void NextLevel () {
