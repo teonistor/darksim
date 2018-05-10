@@ -4,46 +4,34 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class WorldGenerator : MonoBehaviour {
 
-    //prefabs for wall and enemy
-    [SerializeField]
-    private GameObject wall;
-    [SerializeField]
-    private GameObject enemy;
-    [SerializeField]
-    private GameObject exit;
+    // Prefabs for various procedurally placed objects
+    [SerializeField] private GameObject wall, enemy, exit, collectible, indicator;
 
-    //gameobject of the player
-    [SerializeField]
-    private Player player;
+    // GameObject of the player
+    [SerializeField] private Player player;
 
     // matrix used for world generation - origin is at top-left.
     private int[,] world;
 
-    //height and width of the world --- if not specified in the editor, it has a default value of 50
-    [SerializeField]
-    private int height = 50;
-    [SerializeField]
-    private int width = 50;
+    // World generation parameters echoing level progression from Difficulty:
+    private int size;
+    private int numberOfEnemies;
+    private int numberOfObjects;
 
     //variable used for player's position: x is the position on 'width' and y is the position on 'height'
     private Vector2 playerPosition;
 
+    // World generation parameters locally set:
     //distance between enemy and player 
     [SerializeField]
     private int dist = 30;
-    //number of enemies 
-    [SerializeField]
-    private int numberOfEnemies = 1;
-    [SerializeField]
-    private int numberOfObjects = 3;
 
-    [SerializeField] private LocalNavMeshBuilder navMeshBuilder;
-    [SerializeField] private GameObject collectible, indicator;
-    private static GameObject indicatorS; // Hack
-    private static Player playerS; // Hack
-
-    // Menu canvass & static getters
+    // Menu canvases
     [SerializeField] private GameObject pauseCanvas, successCanvas, failCanvas;
+
+    // Getter-hacks for static access
+    private static GameObject Indicator;
+    private static Player Player;
     public static GameObject PauseCanvas { get; private set; }
     public static GameObject SuccessCanvas { get; private set; }
     public static GameObject FailCanvas { get; private set; }
@@ -60,18 +48,24 @@ public class WorldGenerator : MonoBehaviour {
     //List with possible locations on the map
     private static List<Vector2> possibleLoc;
     private static List<Vector2> possibleObjectLoc;
+
+
     void Start() {
-        indicatorS = indicator;
-        playerS = player;
+        size = Difficulty.MapSize;
+        numberOfEnemies = Difficulty.EnemiesGenerated;
+        numberOfObjects = Difficulty.KeysGenerated;
+
+        Indicator = indicator;
+        Player = player;
         possibleLoc = new List<Vector2>();
 	    possibleObjectLoc = new List<Vector2>();
 	    PauseCanvas = pauseCanvas;
         SuccessCanvas = successCanvas;
         FailCanvas = failCanvas;
-        world = new int[height, width];
+        world = new int[size, size];
         //setting player postion to the middle of the map
-        playerPosition.x = (int)width / 2;
-        playerPosition.y = (int)height / 2;
+        playerPosition.x = (int)size / 2;
+        playerPosition.y = (int)size / 2;
 
         player.transform.position = new Vector3(playerPosition.x, player.transform.position.y, playerPosition.y);
 
@@ -91,18 +85,20 @@ public class WorldGenerator : MonoBehaviour {
 
         //executing function to draw the map
         drawMap();
-        navMeshBuilder.UpdateNavMesh();
+
+        // Update navigation with wall info
+        GetComponentInParent<LocalNavMeshBuilder>().UpdateNavMesh();
     }
 
     /// <summary>
     /// Function padding (adding walls) at the edges of the world.
     /// </summary>
     void pad() {
-        for (int i = 0; i < height; ++i) {
-            world[i, width - 1] = world[i, 0] = 0;
+        for (int i = 0; i < size; ++i) {
+            world[i, size - 1] = world[i, 0] = 0;
         }
-        for (int j = 0; j < width; ++j) {
-            world[0, j] = world[height - 1, j] = 0;
+        for (int j = 0; j < size; ++j) {
+            world[0, j] = world[size - 1, j] = 0;
         }
 
     }
@@ -110,10 +106,10 @@ public class WorldGenerator : MonoBehaviour {
     void makeExit() {
         int where = Random.Range(0, 4);
         switch (where) {
-            case 0: world[Random.Range(0, height), 0] = exitCode; break;
-            case 1: world[0, Random.Range(0, width)] = exitCode; break;
-            case 2: world[Random.Range(0, height), width - 1] = exitCode; break;
-            case 3: world[height - 1, Random.Range(0, width)] = exitCode; break;
+            case 0: world[Random.Range(0, size), 0] = exitCode; break;
+            case 1: world[0, Random.Range(0, size)] = exitCode; break;
+            case 2: world[Random.Range(0, size), size - 1] = exitCode; break;
+            case 3: world[size - 1, Random.Range(0, size)] = exitCode; break;
         }
         exitSide = where;
     }
@@ -122,22 +118,22 @@ public class WorldGenerator : MonoBehaviour {
     /// Function generating the world.
     /// </summary>
     void generateRandomWorld() {
-        int[,] roomMap = new int[height, width];
+        int[,] roomMap = new int[size, size];
         System.Random generator = new System.Random();
         int startingRoomDim = generator.Next(4,6);
-        if (startingRoomDim >= width / 2 || startingRoomDim >= height / 2) {
+        if (startingRoomDim >= size / 2 || startingRoomDim >= size / 2) {
             return;
         }
-        for (int i = height / 2 - startingRoomDim; i <= height / 2 + startingRoomDim; ++i) {
-            for (int j = width / 2 - startingRoomDim; j <= width / 2 + startingRoomDim; ++j) {
+        for (int i = size / 2 - startingRoomDim; i <= size / 2 + startingRoomDim; ++i) {
+            for (int j = size / 2 - startingRoomDim; j <= size / 2 + startingRoomDim; ++j) {
                 world[i, j] = 0;
                 roomMap[i, j] = 1;
             }
-            world[i, width / 2 - startingRoomDim] = world[i, width / 2 + startingRoomDim] = 1;
+            world[i, size / 2 - startingRoomDim] = world[i, size / 2 + startingRoomDim] = 1;
         }
 
-        for (int j = width / 2 - startingRoomDim; j <= width / 2 + startingRoomDim; ++j) {
-            world[height / 2 - startingRoomDim, j] = world[height / 2 + startingRoomDim, j] = 1;
+        for (int j = size / 2 - startingRoomDim; j <= size / 2 + startingRoomDim; ++j) {
+            world[size / 2 - startingRoomDim, j] = world[size / 2 + startingRoomDim, j] = 1;
         }
 
         int coridors = generator.Next(2, 6);
@@ -158,27 +154,27 @@ public class WorldGenerator : MonoBehaviour {
            // print(nextCoridor);
 
             if (nextCoridor < startingRoomDim * 2) {
-                world[height / 2 - startingRoomDim, width / 2 + nextCoridor - startingRoomDim] = 0;
+                world[size / 2 - startingRoomDim, size / 2 + nextCoridor - startingRoomDim] = 0;
                 nextCoridor--;
-                world[height / 2 - startingRoomDim, width / 2 + nextCoridor - startingRoomDim] = 0;
+                world[size / 2 - startingRoomDim, size / 2 + nextCoridor - startingRoomDim] = 0;
 
             } else if (nextCoridor < startingRoomDim * 4) {
                 nextCoridor -= startingRoomDim * 2;
-                world[height / 2 + nextCoridor - startingRoomDim, width / 2 + startingRoomDim] = 0;
+                world[size / 2 + nextCoridor - startingRoomDim, size / 2 + startingRoomDim] = 0;
                 nextCoridor--;
-                world[height / 2 + nextCoridor - startingRoomDim, width / 2 + startingRoomDim] = 0;
+                world[size / 2 + nextCoridor - startingRoomDim, size / 2 + startingRoomDim] = 0;
 
             } else if (nextCoridor < startingRoomDim * 6) {
                 nextCoridor -= startingRoomDim * 4;
-                world[height / 2 + startingRoomDim, width / 2 + nextCoridor - startingRoomDim] = 0;
+                world[size / 2 + startingRoomDim, size / 2 + nextCoridor - startingRoomDim] = 0;
                 nextCoridor--;
-                world[height / 2 + startingRoomDim, width / 2 + nextCoridor - startingRoomDim] = 0;
+                world[size / 2 + startingRoomDim, size / 2 + nextCoridor - startingRoomDim] = 0;
 
             } else if (nextCoridor < startingRoomDim * 8) {
                 nextCoridor -= startingRoomDim * 6;
-                world[height / 2 + nextCoridor - startingRoomDim, width / 2 - startingRoomDim] = 0;
+                world[size / 2 + nextCoridor - startingRoomDim, size / 2 - startingRoomDim] = 0;
                 nextCoridor--;
-                world[height / 2 + nextCoridor - startingRoomDim, width / 2 - startingRoomDim] = 0;
+                world[size / 2 + nextCoridor - startingRoomDim, size / 2 - startingRoomDim] = 0;
 
             }
         }
@@ -188,31 +184,31 @@ public class WorldGenerator : MonoBehaviour {
         int topFinish;
         int botStart = 0;
         int botFinish;
-        for (int i = height / 2 - startingRoomDim; i <= height / 2 + startingRoomDim; ++i) {
-            if(world[i, width / 2 - startingRoomDim] == 0 && !bottomCorridorStarted) {
+        for (int i = size / 2 - startingRoomDim; i <= size / 2 + startingRoomDim; ++i) {
+            if(world[i, size / 2 - startingRoomDim] == 0 && !bottomCorridorStarted) {
                 //print("found");
                 bottomCorridorStarted = true;
                 botStart = i-1;
                 //print(topStart);
-            }else if (world[i, width / 2 - startingRoomDim] == 1 && bottomCorridorStarted) {
+            }else if (world[i, size / 2 - startingRoomDim] == 1 && bottomCorridorStarted) {
                 bottomCorridorStarted = false;
                 botFinish = i;
-                for(int k = width / 2 - startingRoomDim; k > 0; --k) {
+                for(int k = size / 2 - startingRoomDim; k > 0; --k) {
                     world[botFinish, k] = world[botStart, k] = 1;
                     for(int q = botStart+1; q < botFinish; ++q) {
                         roomMap[q, k] = 1; 
                     }
                 }
             }
-            if (world[i, width / 2 + startingRoomDim] == 0 && !topCorridorStarted) {
+            if (world[i, size / 2 + startingRoomDim] == 0 && !topCorridorStarted) {
                 //print("found");
                 topCorridorStarted = true;
                 topStart = i - 1;
                 //print(topStart);
-            } else if (world[i, width / 2 + startingRoomDim] == 1 && topCorridorStarted) {
+            } else if (world[i, size / 2 + startingRoomDim] == 1 && topCorridorStarted) {
                 topCorridorStarted = false;
                 topFinish = i;
-                for (int k = width / 2 + startingRoomDim; k < width; ++k) {
+                for (int k = size / 2 + startingRoomDim; k < size; ++k) {
                     world[topFinish, k] = world[topStart, k] = 1;
                     for (int q = topFinish - 1; q > topStart; --q) {
                         roomMap[q, k] = 1;
@@ -227,27 +223,27 @@ public class WorldGenerator : MonoBehaviour {
         int leftFinish;
         int rightStart = 0;
         int rightFinish;
-        for (int i = width / 2 - startingRoomDim; i <= width / 2 + startingRoomDim; ++i) {
-            if (world[height / 2 - startingRoomDim, i] == 0 && !leftCorridorStarted) {
+        for (int i = size / 2 - startingRoomDim; i <= size / 2 + startingRoomDim; ++i) {
+            if (world[size / 2 - startingRoomDim, i] == 0 && !leftCorridorStarted) {
                 leftCorridorStarted = true;
                 leftStart = i - 1;
-            } else if (world[height / 2 - startingRoomDim, i] == 1 && leftCorridorStarted) {
+            } else if (world[size / 2 - startingRoomDim, i] == 1 && leftCorridorStarted) {
                 leftCorridorStarted = false;
                 leftFinish = i;
-                for (int k = height/ 2 - startingRoomDim; k > 0; --k) {
+                for (int k = size/ 2 - startingRoomDim; k > 0; --k) {
                     world[k, leftStart] = world[k, leftFinish] = 1;
                     for (int q = leftStart + 1; q < leftFinish; ++q) {
                         roomMap[k, q] = 1;
                     }
                 }
             }
-            if (world[height / 2 + startingRoomDim, i] == 0 && !rightCorridorStarted) {
+            if (world[size / 2 + startingRoomDim, i] == 0 && !rightCorridorStarted) {
                 rightCorridorStarted = true;
                 rightStart = i - 1;
-            } else if (world[height / 2 + startingRoomDim, i] == 1 && rightCorridorStarted) {
+            } else if (world[size / 2 + startingRoomDim, i] == 1 && rightCorridorStarted) {
                 rightCorridorStarted = false;
                 rightFinish = i;
-                for (int k = height / 2 + startingRoomDim; k < height; ++k) {
+                for (int k = size / 2 + startingRoomDim; k < size; ++k) {
                     world[k, rightStart] = world[k, rightFinish] = 1;
                     for (int q = rightStart + 1; q < rightFinish; ++q) {
                         roomMap[k, q] = 1;
@@ -256,14 +252,14 @@ public class WorldGenerator : MonoBehaviour {
             }
         }
         
-        for(int i = 0; i < height; ++i) {
-            for(int j = 0; j < width; ++j) {
+        for(int i = 0; i < size; ++i) {
+            for(int j = 0; j < size; ++j) {
                 if (roomMap[i,j] == 0) {
                     //generate room
                     int roomId = generator.Next(0, RoomData.rooms.Length);
                     for (int k = 0; k < RoomData.rooms[roomId].Length; ++k) {
                         for (int r = 0; r < RoomData.rooms[roomId][k].Length; ++r) {
-                            if(i+k < height && j+r < width && roomMap[i+k,j+r] == 0) {
+                            if(i+k < size && j+r < size && roomMap[i+k,j+r] == 0) {
                                 world[i + k, j + r] = RoomData.rooms[roomId][k][r];
                                 roomMap[i + k, j + r] = 1;
                                 //print(RoomData.rooms[roomId][k][r]);
@@ -282,7 +278,7 @@ public class WorldGenerator : MonoBehaviour {
     /// <param name="distance"> integer indicating the minimum distance between the enemies and the player</param>
     void generateEnemies(int numberOfEnemies, int distance) {
 
-        int[,] mapChecker = new int[height, width]; 
+        int[,] mapChecker = new int[size, size]; 
 
         //queue elements are vector3, with x,y the coordinates and z the distance between the given point and the player
         //queue used for bfs
@@ -299,7 +295,7 @@ public class WorldGenerator : MonoBehaviour {
             Vector3 currentPos = qu.Dequeue();
             
             //checking if current position was visited
-            if(currentPos.x < 0 || currentPos.y < 0 || currentPos.x >= height || currentPos.y >= width || mapChecker[(int)currentPos.x, (int)currentPos.y] != 0)
+            if(currentPos.x < 0 || currentPos.y < 0 || currentPos.x >= size || currentPos.y >= size || mapChecker[(int)currentPos.x, (int)currentPos.y] != 0)
                 continue;
 
             //checking if current position is empty
@@ -344,8 +340,8 @@ public class WorldGenerator : MonoBehaviour {
         }
         //Filling blank spots that can't be reached
 
-        for(int i = 0; i < height; ++i) {
-            for(int j = 0; j < width; ++j) {
+        for(int i = 0; i < size; ++i) {
+            for(int j = 0; j < size; ++j) {
                 if (mapChecker[i, j] == 0 && world[i, j] == 0)
                     world[i, j] = 1;
             }
@@ -358,8 +354,8 @@ public class WorldGenerator : MonoBehaviour {
         int extrapad = 20;
         Vector2 extraExitSpace = new Vector2(0,0);
         //double for loop that iterates through the map 
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
                 /*
                  * Values of the world map:
                  * 
@@ -406,25 +402,25 @@ public class WorldGenerator : MonoBehaviour {
         }
         //add more pad
         for (int i = -extrapad; i < 0; ++i) {
-            for (int j = 0; j < width; ++j) {
+            for (int j = 0; j < size; ++j) {
                 if( i != extraExitSpace.x || j != extraExitSpace.y) 
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
-        for (int i = height; i < height+extrapad; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = size; i < size+extrapad; ++i) {
+            for (int j = 0; j < size; ++j) {
                 if (i != extraExitSpace.x || j != extraExitSpace.y)
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
-        for (int i = -extrapad; i < height+extrapad; ++i) {
+        for (int i = -extrapad; i < size+extrapad; ++i) {
             for (int j = -extrapad; j < 0; ++j) {
                 if (i != extraExitSpace.x || j != extraExitSpace.y)
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
-        for (int i = -extrapad; i < height + extrapad; ++i) {
-            for (int j = width; j < width + extrapad; ++j) {
+        for (int i = -extrapad; i < size + extrapad; ++i) {
+            for (int j = size; j < size + extrapad; ++j) {
                 if (i != extraExitSpace.x || j != extraExitSpace.y)
                     Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
@@ -453,21 +449,14 @@ public class WorldGenerator : MonoBehaviour {
         return wallCode;
     }
 
-    public int GetWidth() {
-        return width;
-    }
-    public int GetHeight() {
-        return height;
-    }
-
     public void Update() {
         if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.sceneCount < 2)
             pauseCanvas.SetActive(true);
     }
 
     public static TargetIndicator CreateTargetIndicator(MonoBehaviour target) {
-        TargetIndicator indicator = Instantiate(indicatorS).GetComponent<TargetIndicator>();
-        indicator.Init(target.transform, Camera.main, playerS.transform);
+        TargetIndicator indicator = Instantiate(Indicator).GetComponent<TargetIndicator>();
+        indicator.Init(target.transform, Camera.main, Player.transform);
         return indicator;
     }
 }
