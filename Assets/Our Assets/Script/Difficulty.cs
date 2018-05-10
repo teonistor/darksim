@@ -84,10 +84,12 @@ public class Difficulty : MonoBehaviour {
     /// <summary>
     /// Number of keys necessary to open the door in the current level
     /// </summary>
-    public static int KeysNecessary { get { return 1; } } // TODO
+    public static int KeysNecessary { get { return 2; } } // TODO
 
-    private static int keysCollected;
-
+    /// <summary>
+    /// Number of keys currently collected
+    /// </summary>
+    public static int KeysCollected { get; private set; }
 
     void Awake () {
         if (firstRun) {
@@ -113,20 +115,20 @@ public class Difficulty : MonoBehaviour {
 
     public static void CollectKey() {
         CheckFirstKeyCollect();
-        keysCollected++;
-        if (keysCollected == KeysNecessary) {
+        KeysCollected++;
+        if (KeysCollected == KeysNecessary) {
             print("Open door");
             // TODO
         }
     }
 
     public static void BeginGame () {
-        keysCollected = 0;
+        KeysCollected = 0;
         CurrentLevel = 1;
     }
 
     public static void NextLevel () {
-        keysCollected = 0;
+        KeysCollected = 0;
         CurrentLevel++;
         MaxLevel = Mathf.Max(MaxLevel, CurrentLevel);
     }
