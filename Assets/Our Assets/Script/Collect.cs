@@ -4,8 +4,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Collect : MonoBehaviour {
+    enum Type { Key, Light, Speed };
 
-    //public Transform cmr;
+    [SerializeField] private Type type;
     private TargetIndicator indicator;
     
 	void Start () {
@@ -17,7 +18,13 @@ public class Collect : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        print ("Collected something!");
+        print ("Collected " + type.ToString());
+
+        switch (type) {
+            case Type.Key: Difficulty.CollectKey(); break;
+            case Type.Light: Difficulty.CollectLight(); break;
+            case Type.Speed: Difficulty.CollectSpeed(); break;
+        }
 
         StartCoroutine(destroyAnimation());
         GetComponent<Collider>().enabled = false;

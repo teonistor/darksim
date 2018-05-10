@@ -105,15 +105,17 @@ public class Player : MonoBehaviour {
     }
 
     public void DealDamage () {
-        if (Time.time - lastDamageTaken > 3f) {
-            lastDamageTaken = Time.time;
-            Health -= Difficulty.HealthDrop;
-            if (Health < 0f) {
-                enabled = false;
-                PlayerActions.Death();
-                StartCoroutine(delayFailMenu());
-            } else {
-                PlayerActions.Damage();
+        if (Health > 0f) {
+            if (Time.time - lastDamageTaken > 1f) {
+                lastDamageTaken = Time.time;
+                Health -= Difficulty.HealthDrop;
+                if (Health <= 0f) {
+                    enabled = false;
+                    PlayerActions.Death();
+                    StartCoroutine(delayFailMenu());
+                } else {
+                    PlayerActions.Damage();
+                }
             }
         }
     }

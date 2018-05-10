@@ -4,6 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Light))]
 public class Ambiance : MonoBehaviour {
+    private static readonly float minAngle = 20f,
+                                  maxAngle = 80f;
 
     private static IList<Enemy> enemies;
     private static Light overheadLight;
@@ -43,5 +45,6 @@ public class Ambiance : MonoBehaviour {
     void FixedUpdate () {
         colorC = Mathf.MoveTowards(colorC, colorT, 1.5f * Time.deltaTime);
         overheadLight.color = Color.Lerp(Color.white, Color.red, colorC);
+        overheadLight.spotAngle = Mathf.Lerp(minAngle, maxAngle, Difficulty.CurrentDifficulty);
     }
 }

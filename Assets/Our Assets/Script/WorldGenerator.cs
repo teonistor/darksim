@@ -9,6 +9,8 @@ public class WorldGenerator : MonoBehaviour {
     private GameObject wall;
     [SerializeField]
     private GameObject enemy;
+    [SerializeField]
+    private GameObject exit;
 
     //gameobject of the player
     [SerializeField]
@@ -46,11 +48,14 @@ public class WorldGenerator : MonoBehaviour {
     public static GameObject SuccessCanvas { get; private set; }
     public static GameObject FailCanvas { get; private set; }
 
+    // Variable for exit side
+    public int exitSide;
+
     //Codes used in generating the map
     public const int wallCode = 1;
     public const int objectCode = 2;
     public const int enemyCode = 3;
-
+    public const int exitCode = 4;
 
     //List with possible locations on the map
     private static List<Vector2> possibleLoc;
@@ -59,11 +64,11 @@ public class WorldGenerator : MonoBehaviour {
         indicatorS = indicator;
         playerS = player;
         possibleLoc = new List<Vector2>();
-	possibleObjectLoc = new List<Vector2>();
-	PauseCanvas = pauseCanvas;
+	    possibleObjectLoc = new List<Vector2>();
+	    PauseCanvas = pauseCanvas;
         SuccessCanvas = successCanvas;
         FailCanvas = failCanvas;
-       world = new int[height, width];
+        world = new int[height, width];
         //setting player postion to the middle of the map
         playerPosition.x = (int)width / 2;
         playerPosition.y = (int)height / 2;
@@ -77,6 +82,9 @@ public class WorldGenerator : MonoBehaviour {
 
         //executing function to add walls around the map
         pad();
+
+        //makes the exit of the level
+        makeExit();
 
         //executing function to generate enemies;
         generateEnemies(numberOfEnemies,dist);
@@ -96,6 +104,18 @@ public class WorldGenerator : MonoBehaviour {
         for (int j = 0; j < width; ++j) {
             world[0, j] = world[height - 1, j] = 0;
         }
+
+    }
+
+    void makeExit() {
+        int where = Random.Range(0, 4);
+        switch (where) {
+            case 0: world[Random.Range(0, height), 0] = exitCode; break;
+            case 1: world[0, Random.Range(0, width)] = exitCode; break;
+            case 2: world[Random.Range(0, height), width - 1] = exitCode; break;
+            case 3: world[height - 1, Random.Range(0, width)] = exitCode; break;
+        }
+        exitSide = where;
     }
 
     /// <summary>
@@ -296,10 +316,10 @@ public class WorldGenerator : MonoBehaviour {
             if (world[(int)currentPos.x, (int)currentPos.y] == objectCode) {
                 possibleObjectLoc.Add(new Vector2(currentPos.x, currentPos.y));
                 world[(int)currentPos.x, (int)currentPos.y] = 0;
-            }else if (mapChecker[(int)currentPos.x, (int)currentPos.y] > distance) {
+            }else if (world[(int)currentPos.x, (int)currentPos.y] == 0 && mapChecker[(int)currentPos.x, (int)currentPos.y] > distance) {
                 possibleEnemyLoc.Add(new Vector2(currentPos.x, currentPos.y));
                 possibleLoc.Add(new Vector2(currentPos.x, currentPos.y));
-            } else if (mapChecker[(int)currentPos.x, (int)currentPos.y] > 0) {
+            } else if (world[(int)currentPos.x, (int)currentPos.y] == 0 && mapChecker[(int)currentPos.x, (int)currentPos.y] > 0) {
                 possibleLoc.Add(new Vector2(currentPos.x, currentPos.y));
             }
         }
@@ -326,7 +346,7 @@ public class WorldGenerator : MonoBehaviour {
 
         for(int i = 0; i < height; ++i) {
             for(int j = 0; j < width; ++j) {
-                if (mapChecker[i, j] == 0)
+                if (mapChecker[i, j] == 0 && world[i, j] == 0)
                     world[i, j] = 1;
             }
         }
@@ -336,6 +356,7 @@ public class WorldGenerator : MonoBehaviour {
     /// </summary>
     void drawMap() {
         int extrapad = 20;
+        Vector2 extraExitSpace = new Vector2(0,0);
         //double for loop that iterates through the map 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -355,28 +376,57 @@ public class WorldGenerator : MonoBehaviour {
                     newEnemy.GetComponent<Enemy>().Init(player);
                 }else if (world[i, j] == objectCode) {
                     Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                }else if (world[i,j] == exitCode) {
+                    float iExit = 0, jExit = 0;
+                    Quaternion rot = Quaternion.identity;
+                    switch (exitSide) { 
+                        case 0: iExit = i; jExit = j-0.5f;
+                                extraExitSpace = new Vector2(i, j - 1);
+                                rot = Quaternion.Euler(-90, 0, 0);
+                                break;
+
+                        case 1: iExit = i-0.5f; jExit = j;
+                                extraExitSpace = new Vector2(i - 1, j);
+                                rot = Quaternion.Euler(-90, 90, 0);
+                                break;
+
+                        case 2: iExit = i; jExit = j+0.5f;
+                                extraExitSpace = new Vector2(i, j + 1);
+                                rot = Quaternion.Euler(-90, 180, 0);
+                                break;
+
+                        case 3: iExit = i+0.5f; jExit = j;
+                                extraExitSpace = new Vector2(i + 1, j);
+                                rot = Quaternion.Euler(-90, 270, 0);
+                                break;
+                    }
+                    Instantiate(exit, new Vector3(iExit, exit.transform.localScale.y / 2, jExit), rot, transform);
                 }
             }
         }
         //add more pad
         for (int i = -extrapad; i < 0; ++i) {
             for (int j = 0; j < width; ++j) {
-                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                if( i != extraExitSpace.x || j != extraExitSpace.y) 
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
         for (int i = height; i < height+extrapad; ++i) {
             for (int j = 0; j < width; ++j) {
-                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
         for (int i = -extrapad; i < height+extrapad; ++i) {
             for (int j = -extrapad; j < 0; ++j) {
-                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
         for (int i = -extrapad; i < height + extrapad; ++i) {
             for (int j = width; j < width + extrapad; ++j) {
-                Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
             }
         }
     }

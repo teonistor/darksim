@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 
@@ -19,45 +18,131 @@ public class Difficulty : MonoBehaviour {
      */
 
     private static bool firstRun = true;
+    private static bool DiffNecerCollected = true;
+    private static bool KeyNeverCollected = true;
 
+    /// <summary>
+    /// Current (potentially in progress) difficulty tweak, between 0 (speed) and 1 (light)
+    /// </summary>
     public static float CurrentDifficulty { get; private set; }
 
     /// <summary>
-    /// Current difficulty tweak, between 0 (speed) and 1 (light)
+    /// Target difficulty tweak, between 0 (speed) and 1 (light)
     /// </summary>
-	public static float difficulty { get; private set; }
+	public static float TargetDifficulty { get; private set; }
 
     /// <summary>
     /// Current level
     /// </summary>
-    public static int level { get; private set; }
+    public static int CurrentLevel { get; private set; }
 
-    // TODO
-    public static float StaminaDrop { get { return 4f; } }
-    public static float StaminaRefillMoving { get { return 8.5f; } }
-    public static float StaminaRefillStaying { get { return 6.2f; } } // Quite arbitrary?
+    /// <summary>
+    /// Maximum level reached in the current run of the program
+    /// </summary>
+    public static int MaxLevel { get; private set; }
+
+    /// <summary>
+    /// Increment by which difficulty tweak is adjusted when speed/light is collected
+    /// </summary>
+    public static float DifficultyIncrement { get { return 0.1f; } }
+
+    /// <summary>
+    /// Stamina refill speed when staying still, based on current difficulty tweak
+    /// </summary>
+    public static float StaminaDrop { get { return Mathf.Lerp(6f, 2f, CurrentDifficulty); } }
+
+    /// <summary>
+    /// Stamina refill speed when moving, based on current difficulty tweak
+    /// </summary>
+    public static float StaminaRefillMoving { get { return Mathf.Lerp(9f, 7f, CurrentDifficulty); } }
+
+    /// <summary>
+    /// Stamina refill speed when staying still, based on current difficulty tweak
+    /// </summary>
+    public static float StaminaRefillStaying { get { return Mathf.Lerp(6.8f, 5.6f, CurrentDifficulty); } }
+
+    /// <summary>
+    /// Amount of health lost for one enemy hit
+    /// </summary>
     public static float HealthDrop { get { return 0.4f; } }
 
-    // This is more about level progression
-    public static int MapSize { get; private set; }
+    /// <summary>
+    /// Size of the map for the current level
+    /// </summary>
+    public static int MapSize { get { return 50; } } // TODO
+
+    /// <summary>
+    /// Number of enemies generated in the current level
+    /// </summary>
+    public static int EnemiesGenerated { get { return 3; } } // TODO
+
+    /// <summary>
+    /// Number of keys generated in the current level
+    /// </summary>
+    public static int KeysGenerated{ get { return 3; } } // TODO
+
+    /// <summary>
+    /// Number of keys necessary to open the door in the current level
+    /// </summary>
+    public static int KeysNecessary { get { return 1; } } // TODO
+
+    private static int keysCollected;
 
 
     void Awake () {
         if (firstRun) {
-            CurrentDifficulty = 0.5f;
+            CurrentDifficulty = TargetDifficulty = 0.5f;
+            CurrentLevel = MaxLevel = 0;
         }
     }
 
     void Update () {
-
+        CurrentDifficulty = Mathf.MoveTowards(CurrentDifficulty, TargetDifficulty, Time.deltaTime * 0.15f);
     }
 
 
     public static void CollectSpeed () {
-
+        CheckFirstDiffCollect();
+        TargetDifficulty = Mathf.Clamp01(TargetDifficulty - DifficultyIncrement);
     }
 
     public static void CollectLight () {
+        CheckFirstDiffCollect();
+        TargetDifficulty = Mathf.Clamp01(TargetDifficulty + DifficultyIncrement);
+    }
 
+    public static void CollectKey() {
+        CheckFirstKeyCollect();
+        keysCollected++;
+        if (keysCollected == KeysNecessary) {
+            print("Open door");
+            // TODO
+        }
+    }
+
+    public static void BeginGame () {
+        keysCollected = 0;
+        CurrentLevel = 1;
+    }
+
+    public static void NextLevel () {
+        keysCollected = 0;
+        CurrentLevel++;
+        MaxLevel = Mathf.Max(MaxLevel, CurrentLevel);
+    }
+
+    private static void CheckFirstDiffCollect () {
+        if (DiffNecerCollected) {
+            DiffNecerCollected = false;
+            print("First colect difficulty token");
+            // TODO
+        }
+    }
+    private static void CheckFirstKeyCollect () {
+        if (KeyNeverCollected) {
+            KeyNeverCollected = false;
+            print("First colect key collectible");
+            // TODO
+        }
     }
 }

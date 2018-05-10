@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 175539067}
   - component: {fileID: 175539068}
+  - component: {fileID: 175539070}
   m_Layer: 10
   m_Name: The Director
   m_TagString: Untagged
@@ -155,12 +156,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1202464443291306, guid: 444c78779a0fc46449d9bdfb609d223f, type: 2}
   enemy: {fileID: 1091816578959678, guid: 112f516e4ddbb0149a093f6f7d8802c5, type: 2}
+  exit: {fileID: 1535664584205096, guid: 62ebcefc095eb71448bfb0a146175179, type: 2}
   player: {fileID: 1660330555}
   height: 50
   width: 50
   dist: 20
-  numberOfEnemies: 1
-  numberOfObjects: 3
+  numberOfEnemies: 0
+  numberOfObjects: 5
   navMeshBuilder: {fileID: 1868678606}
   collectible: {fileID: 1083580665585846, guid: f472826735b2aed47b9553aed9e6465d,
     type: 2}
@@ -168,6 +170,18 @@ MonoBehaviour:
   pauseCanvas: {fileID: 1236982121}
   successCanvas: {fileID: 513109146}
   failCanvas: {fileID: 1879741746}
+  exitSide: 0
+--- !u!114 &175539070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 175539066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31cae1405d283464aac1122dfe6ce5fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &513109146
 GameObject:
   m_ObjectHideFlags: 0
