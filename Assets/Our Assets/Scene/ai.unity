@@ -460,6 +460,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 20806279390666962, guid: 81147d66abb7dbb499eb9767d1274652,
+        type: 2}
+      propertyPath: field of view
+      value: 65.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 108755349481331798, guid: 81147d66abb7dbb499eb9767d1274652,
+        type: 2}
+      propertyPath: m_SpotAngle
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 108755349481331798, guid: 81147d66abb7dbb499eb9767d1274652,
+        type: 2}
+      propertyPath: m_Range
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 114311345071711528, guid: 81147d66abb7dbb499eb9767d1274652,
+        type: 2}
+      propertyPath: light
+      value: 
+      objectReference: {fileID: 1727690250}
+    - target: {fileID: 114311345071711528, guid: 81147d66abb7dbb499eb9767d1274652,
+        type: 2}
+      propertyPath: lightObject
+      value: 
+      objectReference: {fileID: 1727690250}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81147d66abb7dbb499eb9767d1274652, type: 2}
   m_IsPrefabParent: 0
@@ -913,6 +938,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1688436453}
+--- !u!1 &1727690250 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1906889856856400, guid: 81147d66abb7dbb499eb9767d1274652,
+    type: 2}
+  m_PrefabInternal: {fileID: 837573903}
 --- !u!1 &1832740457
 GameObject:
   m_ObjectHideFlags: 0

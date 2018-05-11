@@ -4,24 +4,36 @@ using System.Collections;
 public class Player : MonoBehaviour {
     public enum Side { Up, Right, Down, Left };
 
-    [SerializeField] private GameObject playerAvatar;
-    [SerializeField] private float walkSpeed = 4.5f,
-                                   runSpeed = 8f;
+    [SerializeField]
+    private GameObject playerAvatar;
+    [SerializeField]
+    private GameObject lightObject;
+    private Light light;
+    [SerializeField]
+    private float walkSpeed = 4.5f,
+                  runSpeed = 8f;
 
     public static Player Instance { get; private set; }
     public Actions PlayerActions { get; private set; }
     public static float Stamina { get; private set; }
+    public static float MaxStamina { get; private set; }
+    public static float MaxLight { get; private set; }
     public static float Health { get; private set; }
 
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };
     private float lastDamageTaken = 0f;
     private bool running = false;
 
+    [SerializeField]
+    private float tradeOffScore = 100; //100 - max lighting, 0 - max run stamina (2f)
     void Start () {
         Instance = this;
         PlayerActions = playerAvatar.GetComponent<Actions>();
         Stamina = 1f;
+        MaxStamina = 1f;
+        MaxLight = 80;
         Health = 1f;
+        light = lightObject.GetComponent<Light>();
     }
 
     public int this[Side s] {
@@ -79,13 +91,25 @@ public class Player : MonoBehaviour {
 
         if (v != Vector3.zero) {
             if (running) {
+                tradeOffScore -= 10f * Time.deltaTime;
+                if (tradeOffScore < 0) tradeOffScore = 0;
+                MaxStamina = 1 + 1 / (tradeOffScore + 1);
+                MaxLight = (tradeOffScore / 100) * 80 + 1;
+                light.spotAngle = MaxLight;
                 v *= runSpeed;
                 PlayerActions.Run();
                 Stamina -= Time.deltaTime / Difficulty.StaminaDrop;
             } else {
+                if(Stamina == MaxStamina) {
+                    tradeOffScore += 10f * Time.deltaTime;
+                    if(tradeOffScore > 100) tradeOffScore = 100;
+                }
+                MaxStamina = 1 + 1 / (tradeOffScore + 1);
+                MaxLight = (tradeOffScore / 100) * 80 + 1;
                 v *= walkSpeed;
                 PlayerActions.Walk();
-                Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillMoving, 1f);
+                Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillMoving, MaxStamina);
+                light.spotAngle = MaxLight;
             }
 
             // Turn towards heading direction
@@ -99,7 +123,11 @@ public class Player : MonoBehaviour {
 
         } else {
             PlayerActions.Stay();
-            Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillStaying, 1f);
+            MaxStamina = 1 + 1 / (tradeOffScore + 1);
+            MaxLight = (tradeOffScore / 100) * 80 + 1;
+            light.spotAngle = MaxLight;
+
+            Stamina = Mathf.Min(Stamina + Time.deltaTime / Difficulty.StaminaRefillStaying, MaxStamina);
         }
 
     }
