@@ -96,6 +96,8 @@ public class Difficulty : MonoBehaviour {
             CurrentDifficulty = TargetDifficulty = 0.5f;
             CurrentLevel = MaxLevel = 0;
         }
+
+        Screen.SetResolution(640, 360, true, 30);
     }
 
     void Update () {

@@ -68,9 +68,7 @@ public class WorldGenerator : MonoBehaviour {
         playerPosition.y = (int)size / 2;
 
         player.transform.position = new Vector3(playerPosition.x, player.transform.position.y, playerPosition.y);
-
-
-
+        
         //executing function to generate the map
         generateRandomWorld();
 
@@ -371,7 +369,7 @@ public class WorldGenerator : MonoBehaviour {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<Enemy>().Init(player);
                 }else if (world[i, j] == objectCode) {
-                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform);
                 }else if (world[i,j] == exitCode) {
                     float iExit = 0, jExit = 0;
                     Quaternion rot = Quaternion.identity;
@@ -454,9 +452,9 @@ public class WorldGenerator : MonoBehaviour {
             pauseCanvas.SetActive(true);
     }
 
-    public static TargetIndicator CreateTargetIndicator(MonoBehaviour target) {
+    public static TargetIndicator CreateTargetIndicator(MonoBehaviour target, System.Func<bool> condition) {
         TargetIndicator indicator = Instantiate(Indicator).GetComponent<TargetIndicator>();
-        indicator.Init(target.transform, Camera.main, Player.transform);
+        indicator.Init(target.transform, Camera.main, Player.transform, condition);
         return indicator;
     }
 }

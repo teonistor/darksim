@@ -10,7 +10,7 @@ public class Collect : MonoBehaviour {
     private TargetIndicator indicator;
     
 	void Start () {
-        indicator = WorldGenerator.CreateTargetIndicator(this);
+        indicator = WorldGenerator.CreateTargetIndicator(this, () => Difficulty.KeysCollected < Difficulty.KeysNecessary);
 	}
 	
 	void Update () {

@@ -13,7 +13,7 @@ public class Door : MonoBehaviour {
         Open = () => {
             GetComponent<Animator>().enabled = true;
             GetComponent<Collider>().enabled = true;
-            WorldGenerator.CreateTargetIndicator(this);
+            WorldGenerator.CreateTargetIndicator(this, ()=>true);
         };
 	}
 	

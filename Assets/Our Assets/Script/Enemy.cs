@@ -17,19 +17,21 @@ public class Enemy : MonoBehaviour {
     private Vector3 initialPos;
     private Animator anim;
 
-    
+    public bool IsChasing { get; private set; }
+
     private Player player;
-    public bool chasing { get; private set; }
+    private TargetIndicator indicator;
 
     void Start () {
         agent = GetComponent<NavMeshAgent>();
         initialPos = transform.position;
         anim = gameObject.GetComponentInChildren<Animator>();
-        chasing = false;
+        IsChasing = false;
     }
 
     public void Init (Player player) {
         this.player = player;
+        indicator = WorldGenerator.CreateTargetIndicator(this, () => IsChasing);
     }
     
     void FixedUpdate () {
@@ -54,9 +56,9 @@ public class Enemy : MonoBehaviour {
 
             // ...=> Chase player
             agent.destination = player.transform.position;
-            if (!chasing) {
+            if (!IsChasing) {
                 anim.Play("crawl_fast");
-                chasing = true;
+                IsChasing = true;
                 agent.speed = runSpeed;
                 Ambiance.AttackCount++;
             }
@@ -70,9 +72,9 @@ public class Enemy : MonoBehaviour {
         // Last target reached and player not visible => give up
         } else if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilonTarget) {
             agent.destination = WorldGenerator.randomLoc;
-            if (chasing) {
+            if (IsChasing) {
                 anim.Play("crawl");
-                chasing = false;
+                IsChasing = false;
                 agent.speed = crawlSpeed;
                 Ambiance.AttackCount--;
                 
