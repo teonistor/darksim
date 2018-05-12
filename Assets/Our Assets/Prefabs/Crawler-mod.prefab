@@ -1637,6 +1637,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a7b6fb23bc91f408fb10c16bdd9546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 1086816111560916, guid: 9c75804410ae90f48954f06bee366134,
+    type: 2}
 --- !u!137 &137689617362990728
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

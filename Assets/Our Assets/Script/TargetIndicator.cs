@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TargetIndicator : MonoBehaviour {
 
+    [SerializeField] private bool hideWhenTargetVisible;
+
     private Renderer rend;
     private Transform target;
     private Camera cam;
@@ -21,13 +23,12 @@ public class TargetIndicator : MonoBehaviour {
         this.condition = condition;
     }
 
-    // Remember to delete indicator when collecting
-
 	void Update () {
 		Vector3 delta = cam.WorldToScreenPoint(target.position);
 
         // Target directly visible or condition not met => hide indicator
         if (!condition() ||
+            hideWhenTargetVisible &&
             delta.x > 0 && delta.x < cam.pixelWidth &&
             delta.y > 0 && delta.y < cam.pixelHeight) {
             rend.enabled = false;
@@ -39,18 +40,11 @@ public class TargetIndicator : MonoBehaviour {
             float hw = cam.pixelWidth * 0.5f;
             float hh = cam.pixelHeight * 0.5f;
 
-            //scrp.x -= hw;
-            //scrp.y -= hh;
-
-            //scrp.x = hw - scrp.x;
-            //scrp.y = hh - scrp.y;
-
-            //float angl = Mathf.Atan(scrp.y/ scrp.x);
             delta = target.position - player.position;
             float angl = Mathf.Atan2(delta.z, delta.x);
 
-            delta.x = Mathf.Cos(angl) * hw + hw;
-            delta.y = Mathf.Sin(angl) * hh + hh;
+            delta.x = Mathf.Cos(angl) * hw * 0.9f + hw;
+            delta.y = Mathf.Sin(angl) * hh * 0.9f + hh;
             delta.z = 2f; // Magic?
 
             transform.position = cam.ScreenToWorldPoint(delta);

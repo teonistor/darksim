@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class WorldGenerator : MonoBehaviour {
 
     // Prefabs for various procedurally placed objects
-    [SerializeField] private GameObject wall, enemy, exit, collectible, indicator;
+    [SerializeField] private GameObject wall, enemy, exit, collectible;
 
     // GameObject of the player
     [SerializeField] private Player player;
@@ -30,8 +30,7 @@ public class WorldGenerator : MonoBehaviour {
     [SerializeField] private GameObject pauseCanvas, successCanvas, failCanvas;
 
     // Getter-hacks for static access
-    private static GameObject Indicator;
-    private static Player Player;
+    public static Player Player { get; private set; }
     public static GameObject PauseCanvas { get; private set; }
     public static GameObject SuccessCanvas { get; private set; }
     public static GameObject FailCanvas { get; private set; }
@@ -54,8 +53,7 @@ public class WorldGenerator : MonoBehaviour {
         size = Difficulty.MapSize;
         numberOfEnemies = Difficulty.EnemiesGenerated;
         numberOfObjects = Difficulty.KeysGenerated;
-
-        Indicator = indicator;
+       
         Player = player;
         possibleLoc = new List<Vector2>();
 	    possibleObjectLoc = new List<Vector2>();
@@ -450,11 +448,5 @@ public class WorldGenerator : MonoBehaviour {
     public void Update() {
         if (Input.GetButtonDown("Pause") && Time.timeScale > 0f)
             pauseCanvas.SetActive(true);
-    }
-
-    public static TargetIndicator CreateTargetIndicator(MonoBehaviour target, System.Func<bool> condition) {
-        TargetIndicator indicator = Instantiate(Indicator).GetComponent<TargetIndicator>();
-        indicator.Init(target.transform, Camera.main, Player.transform, condition);
-        return indicator;
     }
 }

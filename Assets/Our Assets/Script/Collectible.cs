@@ -1,21 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Collect : MonoBehaviour {
+public class Collectible : MonoBehaviour {
     enum Type { Key, Light, Speed };
 
     [SerializeField] private Type type;
+    [SerializeField] private GameObject indicatorPrefab;
     private TargetIndicator indicator;
     
 	void Start () {
-        indicator = WorldGenerator.CreateTargetIndicator(this, () => Difficulty.KeysCollected < Difficulty.KeysNecessary);
-	}
-	
-	void Update () {
-
-	}
+        indicator = Instantiate(indicatorPrefab).GetComponent<TargetIndicator>();
+        indicator.Init(transform, Camera.main, WorldGenerator.Player.transform, () => Difficulty.KeysNecessary != Difficulty.KeysCollected);
+    }
 
     void OnTriggerEnter(Collider other) {
         print ("Collected " + type.ToString());

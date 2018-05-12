@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114364048848176794}
   - component: {fileID: 114710328171054870}
   m_Layer: 0
-  m_Name: TargetIndicator
+  m_Name: EnemyIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1086816111560916}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 9bae9392aaefc5e41bd78e5529e3b0f7, type: 2}
+  - {fileID: 2100000, guid: a5b53f29a4b005f4598210e5f23f582a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8375e3d7f6577f4bb5104ed2db1289d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideWhenTargetVisible: 0
+  destroyOnDoorOpen: 0
+  rend: {fileID: 0}
 --- !u!135 &135122525787695064
 SphereCollider:
   m_ObjectHideFlags: 1

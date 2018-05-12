@@ -12,7 +12,9 @@ public class Enemy : MonoBehaviour {
                           visionAngle = 40f,
                           runSpeed = 4f,
                           crawlSpeed = 1.5f;
-   
+
+    [SerializeField] private GameObject indicatorPrefab;
+
     private NavMeshAgent agent;
     private Vector3 initialPos;
     private Animator anim;
@@ -31,7 +33,8 @@ public class Enemy : MonoBehaviour {
 
     public void Init (Player player) {
         this.player = player;
-        indicator = WorldGenerator.CreateTargetIndicator(this, () => IsChasing);
+        indicator = Instantiate(indicatorPrefab).GetComponent<TargetIndicator>();
+        indicator.Init(transform, Camera.main, WorldGenerator.Player.transform, () => IsChasing);
     }
     
     void FixedUpdate () {
@@ -77,7 +80,6 @@ public class Enemy : MonoBehaviour {
                 IsChasing = false;
                 agent.speed = crawlSpeed;
                 Ambiance.AttackCount--;
-                
             }
         }
 
