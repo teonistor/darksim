@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1086816111560916}
   m_LocalRotation: {x: -0.15143856, y: -0.81928027, z: 0.5248538, w: 0.1742835}
   m_LocalPosition: {x: 21.382, y: 0.7, z: 12.057}
-  m_LocalScale: {x: 0.065, y: 0.065, z: 0.065}
+  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -109,8 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hideWhenTargetVisible: 1
-  destroyOnDoorOpen: 0
-  rend: {fileID: 0}
 --- !u!135 &135122525787695064
 SphereCollider:
   m_ObjectHideFlags: 1

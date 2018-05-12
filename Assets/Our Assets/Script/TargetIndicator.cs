@@ -26,14 +26,27 @@ public class TargetIndicator : MonoBehaviour {
 	void Update () {
 		Vector3 delta = cam.WorldToScreenPoint(target.position);
 
-        // Target directly visible or condition not met => hide indicator
-        if (!condition() ||
-            hideWhenTargetVisible &&
-            delta.x > 0 && delta.x < cam.pixelWidth &&
-            delta.y > 0 && delta.y < cam.pixelHeight) {
+        // Condition not met => hide indicator
+        if (!condition()) {
             rend.enabled = false;
 
-        // Position indicator on the edge of screen
+        // Target directly visible...
+        } else if (delta.x > 0 && delta.x < cam.pixelWidth &&
+                   delta.y > 0 && delta.y < cam.pixelHeight) {
+
+            // Hiding required => hide
+            if (hideWhenTargetVisible)
+                rend.enabled = false;
+
+            // Hiding not required => position indicator above target
+            else {
+                rend.enabled = true;
+
+                delta.z = 2f; // Magic?
+                transform.position = cam.ScreenToWorldPoint(delta);
+            }
+
+        // Target not on screen => Position indicator on the edge of screen
         } else {
             rend.enabled = true;
 
@@ -45,7 +58,7 @@ public class TargetIndicator : MonoBehaviour {
 
             delta.x = Mathf.Cos(angl) * hw * 0.9f + hw;
             delta.y = Mathf.Sin(angl) * hh * 0.9f + hh;
-            delta.z = 2f; // Magic?
+            delta.z = 2f; // Magic
 
             transform.position = cam.ScreenToWorldPoint(delta);
         }

@@ -25,7 +25,7 @@ public class Collectible : MonoBehaviour {
 
         StartCoroutine(destroyAnimation());
         GetComponent<Collider>().enabled = false;
-        Destroy(indicator);
+        Destroy(indicator.gameObject);
     }
 
     private IEnumerator destroyAnimation () {
