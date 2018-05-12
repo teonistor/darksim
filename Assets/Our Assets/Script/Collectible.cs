@@ -18,7 +18,7 @@ public class Collectible : MonoBehaviour {
         print ("Collected " + type.ToString());
 
         switch (type) {
-            case Type.Key: Difficulty.CollectKey(); break;
+            case Type.Key: Difficulty.CollectKey(); Score.KeyCollection(); break;
             case Type.Light: Difficulty.CollectLight(); break;
             case Type.Speed: Difficulty.CollectSpeed(); break;
         }

@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E)) {
             GetComponentInChildren<Text>().text = "Loading...";
             Difficulty.BeginGame();
+            Score.Reset();
             SceneManager.LoadSceneAsync(1);
         }
     }
