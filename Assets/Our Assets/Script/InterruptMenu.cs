@@ -11,7 +11,7 @@ public class InterruptMenu : MonoBehaviour {
     }
 
     void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && menu == Menu.Pause)
+        if (Input.GetButtonDown("Pause") && menu == Menu.Pause)
             gameObject.SetActive(false);
         else if (Input.GetKeyDown(KeyCode.R) && menu != Menu.Success) {
             SceneManager.LoadSceneAsync(1);

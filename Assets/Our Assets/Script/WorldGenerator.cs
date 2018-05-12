@@ -448,7 +448,7 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.sceneCount < 2)
+        if (Input.GetButtonDown("Pause") && Time.timeScale > 0f)
             pauseCanvas.SetActive(true);
     }
 
