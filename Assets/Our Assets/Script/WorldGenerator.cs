@@ -91,10 +91,10 @@ public class WorldGenerator : MonoBehaviour {
     /// </summary>
     void pad() {
         for (int i = 0; i < size; ++i) {
-            world[i, size - 1] = world[i, 0] = 0;
+            world[i, size - 1] = world[i, 0] = world[i, size-2] = world[i, 1] = 0;
         }
         for (int j = 0; j < size; ++j) {
-            world[0, j] = world[size - 1, j] = 0;
+            world[0, j] = world[size - 1, j] = world[1, j] = world[size-2, j] = 0;
         }
 
     }
@@ -190,7 +190,6 @@ public class WorldGenerator : MonoBehaviour {
                 bottomCorridorStarted = false;
                 botFinish = i;
                 for(int k = size / 2 - startingRoomDim; k > 0; --k) {
-                    world[botFinish, k] = world[botStart, k] = 1;
                     for(int q = botStart+1; q < botFinish; ++q) {
                         roomMap[q, k] = 1; 
                     }
@@ -205,7 +204,6 @@ public class WorldGenerator : MonoBehaviour {
                 topCorridorStarted = false;
                 topFinish = i;
                 for (int k = size / 2 + startingRoomDim; k < size; ++k) {
-                    world[topFinish, k] = world[topStart, k] = 1;
                     for (int q = topFinish - 1; q > topStart; --q) {
                         roomMap[q, k] = 1;
                     }
@@ -227,7 +225,6 @@ public class WorldGenerator : MonoBehaviour {
                 leftCorridorStarted = false;
                 leftFinish = i;
                 for (int k = size/ 2 - startingRoomDim; k > 0; --k) {
-                    world[k, leftStart] = world[k, leftFinish] = 1;
                     for (int q = leftStart + 1; q < leftFinish; ++q) {
                         roomMap[k, q] = 1;
                     }
@@ -240,7 +237,6 @@ public class WorldGenerator : MonoBehaviour {
                 rightCorridorStarted = false;
                 rightFinish = i;
                 for (int k = size / 2 + startingRoomDim; k < size; ++k) {
-                    world[k, rightStart] = world[k, rightFinish] = 1;
                     for (int q = rightStart + 1; q < rightFinish; ++q) {
                         roomMap[k, q] = 1;
                     }
@@ -253,12 +249,24 @@ public class WorldGenerator : MonoBehaviour {
                 if (roomMap[i,j] == 0) {
                     //generate room
                     int roomId = generator.Next(0, RoomData.rooms.Length);
+                    //check if fits
+                    bool fits = true;
                     for (int k = 0; k < RoomData.rooms[roomId].Length; ++k) {
                         for (int r = 0; r < RoomData.rooms[roomId][k].Length; ++r) {
-                            if(i+k < size && j+r < size && roomMap[i+k,j+r] == 0) {
-                                world[i + k, j + r] = RoomData.rooms[roomId][k][r];
-                                roomMap[i + k, j + r] = 1;
-                                //print(RoomData.rooms[roomId][k][r]);
+                            if(i+k < size && j+r < size && roomMap[i+k,j+r] != 0) {
+                                fits = false;
+                            }
+                        }
+                    }
+                    if (fits) { 
+                        for (int k = 0; k < RoomData.rooms[roomId].Length; ++k) {
+                            for (int r = 0; r < RoomData.rooms[roomId][k].Length; ++r) {
+
+                                if (i + k < size && j + r < size) {
+                                    world[i + k, j + r] = RoomData.rooms[roomId][k][r];
+                                    roomMap[i + k, j + r] = 1;
+                                    //print(RoomData.rooms[roomId][k][r]);
+                                }
                             }
                         }
                     }
