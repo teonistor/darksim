@@ -35,7 +35,7 @@ public class Score : MonoBehaviour {
     }
 
     public static void Reset () {
-        instance.xp = 0;
+        xp = 0;
     }
 
 

@@ -447,10 +447,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 513109146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69c2a5d0c6c01f04eadda8e556c2b53b, type: 3}
+  m_Script: {fileID: 11500000, guid: 982f92cd9cb06a24ca012b65ec16bacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: 1
 --- !u!1 &542470737
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +794,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2bde018d2b9ebfa42830e15bc2423bb0, type: 3}
-    m_FontSize: 46
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -806,12 +805,20 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Level completed!
+  m_Text: '<size=55>Level completed!</size>
 
 
-    <E> to continue
+    <color={0}>Completion: <color=lime>{1:+#;-#;}</color></color>
 
-    <Q> to exit to menu'
+    <color={2}>Timeliness: <color=lime>{3:+#;-#;}</color></color>
+
+    <color={4}>Health: <color=lime>{5:+#;-#;}</color></color>
+
+    <color={6}>Perfect Stealth: <color=lime>{7:+#;-#;}</color></color>
+
+
+    <color={8}><color={9}><E></color> Continue     <color={9}><Q></color> Exit to
+    menu</color>'
 --- !u!222 &1106372660
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -874,7 +881,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2bde018d2b9ebfa42830e15bc2423bb0, type: 3}
-    m_FontSize: 46
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -885,12 +892,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You dieded!!1!
+  m_Text: '<size=55>You died</size>
 
 
-    <R> to retry
+    Death: <color=red>-1000</color>
 
-    <Q> to exit to menu'
+
+    <color=aqua><R></color> Retry     <color=aqua><Q></color> Exit to menu'
 --- !u!222 &1216394422
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -924,10 +932,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1236982121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69c2a5d0c6c01f04eadda8e556c2b53b, type: 3}
+  m_Script: {fileID: 11500000, guid: 92d552340c40c284f86e8753cb075b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: 0
 --- !u!114 &1236982123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,7 +1389,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1879741746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69c2a5d0c6c01f04eadda8e556c2b53b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5eaca6db86d0f7e4da6bd04648b2a75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: 2
