@@ -20,6 +20,9 @@ public class Door : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-        WorldGenerator.SuccessCanvas.SetActive(true);
+        if (Difficulty.IsLastTutorial)
+            WorldGenerator.EndTutorialCanvas.SetActive(true);
+        else
+            WorldGenerator.SuccessCanvas.SetActive(true);
     }
 }

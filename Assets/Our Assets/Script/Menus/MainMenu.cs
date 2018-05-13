@@ -10,6 +10,12 @@ public class MainMenu : MonoBehaviour {
             Difficulty.BeginGame();
             Score.Reset();
             SceneManager.LoadSceneAsync(1);
+
+        } else if (Input.GetKeyDown(KeyCode.T)) {
+            GetComponentInChildren<Text>().text = "Loading...";
+            Difficulty.BeginGame(true);
+            Score.Reset();
+            SceneManager.LoadSceneAsync(1);
         }
     }
 }

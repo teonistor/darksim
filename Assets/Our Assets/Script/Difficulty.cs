@@ -20,10 +20,10 @@ public class Difficulty : MonoBehaviour {
      * - Enemy speed
      * - Enemy awareness params
      */
-
-    private static bool firstRun = true;
+    
     private static bool DiffNeverCollected = true;
     private static bool KeyNeverCollected = true;
+    private static int currentLevel;
 
     /// <summary>
     /// Current (potentially in progress) difficulty tweak, between 0 (speed) and 1 (light)
@@ -38,7 +38,28 @@ public class Difficulty : MonoBehaviour {
     /// <summary>
     /// Current level
     /// </summary>
-    public static int CurrentLevel { get; private set; }
+    public static int CurrentLevel {
+        get {
+            return currentLevel;
+        }
+        private set {
+            currentLevel = value;
+            switch (value) {
+                case 1: MapSize = 10; KeysGenerated = 0; KeysNecessary = 0; EnemiesGenerated = 0; PowerupsGenerated = 0; break;
+                case 2: MapSize = 15; KeysGenerated = 0; KeysNecessary = 0; EnemiesGenerated = 1; PowerupsGenerated = 0; break;
+                case 3: MapSize = 15; KeysGenerated = 1; KeysNecessary = 1; EnemiesGenerated = 0; PowerupsGenerated = 0; break;
+                case 4: MapSize = 20; KeysGenerated = 2; KeysNecessary = 2; EnemiesGenerated = 0; PowerupsGenerated = 1; break;
+                case 5: MapSize = 25; KeysGenerated = 3; KeysNecessary = 2; EnemiesGenerated = 1; PowerupsGenerated = 1; break;
+                default:
+                    MapSize = value * 5;
+                    KeysGenerated = EnemiesGenerated = (value + 1) / 2;
+                    KeysNecessary = value / 2;
+                    EnemiesGenerated = 0;
+                    PowerupsGenerated = value / 4;
+                    break;
+            }
+        }
+    }
 
     /// <summary>
     /// Maximum level reached in the current run of the program
@@ -73,34 +94,49 @@ public class Difficulty : MonoBehaviour {
     /// <summary>
     /// Size of the map for the current level
     /// </summary>
-    public static int MapSize { get { return 50; } } // TODO
+    public static int MapSize { get; private set; }
 
     /// <summary>
     /// Number of enemies generated in the current level
     /// </summary>
-    public static int EnemiesGenerated { get { return 3; } } // TODO
+    public static int EnemiesGenerated { get; private set; }
+
+    /// <summary>
+    /// Number of powerups generated in the current level
+    /// </summary>
+    public static int PowerupsGenerated { get; private set; }
 
     /// <summary>
     /// Number of keys generated in the current level
     /// </summary>
-    public static int KeysGenerated{ get { return 3; } } // TODO
+    public static int KeysGenerated { get; private set; }
 
     /// <summary>
     /// Number of keys necessary to open the door in the current level
     /// </summary>
-    public static int KeysNecessary { get { return 2; } } // TODO
+    public static int KeysNecessary { get; private set; }
 
     /// <summary>
     /// Number of keys currently collected
     /// </summary>
     public static int KeysCollected { get; private set; }
 
+    /// <summary>
+    /// Whether the tutorial is currently in progress
+    /// </summary>
+    public static bool IsTutorial { get; private set; }
+
+    /// <summary>
+    /// Whether the last tutorial level is currently in progress
+    /// </summary>
+    public static bool IsLastTutorial { get { return IsTutorial && currentLevel == 5; } }
+
     void Awake () {
-        if (firstRun) {
-            firstRun = false;
-            CurrentDifficulty = TargetDifficulty = 0.5f;
-            CurrentLevel = MaxLevel = 1;
-        }
+    }
+
+    static Difficulty () {
+        CurrentDifficulty = TargetDifficulty = 0.5f;
+        CurrentLevel = MaxLevel = 1;
     }
 
     void Update () {
@@ -118,7 +154,7 @@ public class Difficulty : MonoBehaviour {
         TargetDifficulty = Mathf.Clamp01(TargetDifficulty + DifficultyIncrement);
     }
 
-    public static void CollectKey() {
+    public static void CollectKey () {
         CheckFirstKeyCollect();
         KeysCollected++;
         if (KeysCollected == KeysNecessary) {
@@ -126,7 +162,8 @@ public class Difficulty : MonoBehaviour {
         }
     }
 
-    public static void BeginGame () {
+    public static void BeginGame (bool tutorial=false) {
+        IsTutorial = tutorial;
         KeysCollected = 0;
         CurrentLevel = 1;
     }
