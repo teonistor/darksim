@@ -808,13 +808,13 @@ MonoBehaviour:
   m_Text: '<size=55>Level completed!</size>
 
 
-    <color={0}>Completion: <color=lime>{1:+#;-#;}</color></color>
+    <color={0}>      Completion: <color=lime>{1:+0000;-0000;}</color></color>
 
-    <color={2}>Timeliness: <color=lime>{3:+#;-#;}</color></color>
+    <color={2}>        Timeliness: <color=lime>{3:+0000;-0000;}</color></color>
 
-    <color={4}>Health: <color=lime>{5:+#;-#;}</color></color>
+    <color={4}>               Health: <color=lime>{5:+0000;-0000;}</color></color>
 
-    <color={6}>Perfect Stealth: <color=lime>{7:+#;-#;}</color></color>
+    <color={6}>Perfect Stealth: <color=lime>{7:+0000;-0000;}</color></color>
 
 
     <color={8}><color={9}><E></color> Continue     <color={9}><Q></color> Exit to
