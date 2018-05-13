@@ -10,15 +10,13 @@ public class Success : InterruptBase {
 
     void Start () {
         template = text.text;
-        //controlsActive = false;
         c = t = h = s = 0;
 
         Score.ComputeSuccess(out cT, out tT, out hT, out sT);
-        // test
-        //cT = 2000;
-        //tT = 500;
-        //hT = 700;
-        //sT = 0;
+        if (Difficulty.IsLastTutorial)
+            template = template
+                .Replace("Level", "Tutorial")
+                .Replace("<color={9}><E></color> Continue     ", "");
     }
 
     void Update () {

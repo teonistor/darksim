@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 184154063}
   - component: {fileID: 184154062}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,12 +534,16 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Main menu stub
+  m_Text: '<size=55>Darkness Simulator
+
+    </size>
 
 
-    <E> to begin
+    <color=aqua><E></color> Begin game
 
-    <X> to select level (TBC)'
+    <color=aqua><T></color> Tutorial
+
+    <color=aqua><Q></color> Quit'
 --- !u!222 &1106372660
 CanvasRenderer:
   m_ObjectHideFlags: 0

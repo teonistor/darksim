@@ -17,12 +17,12 @@ public class Door : MonoBehaviour {
             Instantiate(indicatorPrefab).GetComponent<TargetIndicator>()
                 .Init(transform, Camera.main, WorldGenerator.Player.transform, () => true);
         };
+
+        if (Difficulty.KeysNecessary == 0)
+            Open();
 	}
 	
 	void OnTriggerEnter(Collider other) {
-        if (Difficulty.IsLastTutorial)
-            WorldGenerator.EndTutorialCanvas.SetActive(true);
-        else
-            WorldGenerator.SuccessCanvas.SetActive(true);
+        WorldGenerator.SuccessCanvas.SetActive(true);
     }
 }

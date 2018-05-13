@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Score : MonoBehaviour {
+    static readonly string hide = "<color=#0000>{0}</color>";
+
     [SerializeField] private Text lvlTxt, xpTxt;
     [SerializeField] private float rollTime = 1f;
 
@@ -12,10 +14,10 @@ public class Score : MonoBehaviour {
     private static Score instance;
 
 	void Start () {
-        lvlTemplate = lvlTxt.text;
+        lvlTemplate = Difficulty.IsTutorial ? hide : lvlTxt.text;
         lvlTxt.text = string.Format(lvlTemplate, Difficulty.CurrentLevel);
 
-        xpTemplate = xpTxt.text;
+        xpTemplate = Difficulty.IsTutorial ? hide : xpTxt.text;
         xpTxt.text = string.Format(xpTemplate, xp);
 
         instance = this;
@@ -42,21 +44,24 @@ public class Score : MonoBehaviour {
 
 
     public static void ComputeSuccess (out int completion, out int timeliness, out int health, out int stealth) {
-        completion = 1000;
-        //timeliness = 240000 + 20000 * Difficulty.CurrentLevel - (int)(2000 * Time.timeSinceLevelLoad);
-        health = (int)(700 * Player.Health);
-        stealth = Enemy.HasBeenChasing ? 0 : 350;
+        if (Difficulty.IsTutorial) {
+            completion = timeliness = health = stealth = 0;
 
-        timeliness = 2000 - (int)(2000 * Time.timeSinceLevelLoad / (120 + 10 * Difficulty.CurrentLevel));
-        // 1- (effTime/topsTime)
-        if (timeliness < 0) timeliness = 0;
+        } else {
+            completion = 1000;
+            timeliness = 2000 - (int)(2000 * Time.timeSinceLevelLoad / (120 + 10 * Difficulty.CurrentLevel));
+            health = (int)(700 * Player.Health);
+            stealth = Enemy.HasBeenChasing ? 0 : 350;
+            
+            if (timeliness < 0) timeliness = 0;
 
-        xp += completion + timeliness + health + stealth;
+            xp += completion + timeliness + health + stealth;
+        }
     }
 
 
     public static void ComputeFail(out int penalty) {
-        penalty = -500;
+        penalty = Difficulty.IsTutorial ? 0 : -500;
         xp += penalty;
     }
 

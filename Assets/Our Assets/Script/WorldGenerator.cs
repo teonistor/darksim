@@ -27,14 +27,13 @@ public class WorldGenerator : MonoBehaviour {
     private int dist = 30;
 
     // Menu canvases
-    [SerializeField] private GameObject pauseCanvas, successCanvas, failCanvas, endTutorialCanvas;
+    [SerializeField] private GameObject pauseCanvas, successCanvas, failCanvas;
 
     // Getter-hacks for static access
     public static Player Player { get; private set; }
     public static GameObject PauseCanvas { get; private set; }
     public static GameObject SuccessCanvas { get; private set; }
     public static GameObject FailCanvas { get; private set; }
-    public static GameObject EndTutorialCanvas { get; private set; }
 
     // Variable for exit side
     public int exitSide;
@@ -61,8 +60,6 @@ public class WorldGenerator : MonoBehaviour {
 	    PauseCanvas = pauseCanvas;
         SuccessCanvas = successCanvas;
         FailCanvas = failCanvas;
-        EndTutorialCanvas = endTutorialCanvas;
-
         world = new int[size, size];
         //setting player postion to the middle of the map
         playerPosition.x = (int)size / 2;
