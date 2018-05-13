@@ -50,7 +50,6 @@ public class WorldGenerator : MonoBehaviour {
 
 
     void Start() {
-        print("ma-sa");
         size = Difficulty.MapSize;
         numberOfEnemies = Difficulty.EnemiesGenerated;
         numberOfObjects = Difficulty.KeysGenerated;

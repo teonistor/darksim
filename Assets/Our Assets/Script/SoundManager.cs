@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
+    [SerializeField] private GameObject endSound;
+    private static bool first = true;
+
     private void Awake() {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Music");
-        if(objs.Length > 1) {
-            //Destroy(gameObject);
+        if (first) {
+            first = false;
+            DontDestroyOnLoad(gameObject);
+        } else {
+            Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+    }
+
+    public void playEndSound() {
+        endSound.SetActive(true);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(Collider))]
 public class Door : MonoBehaviour {
     [SerializeField] private GameObject indicatorPrefab;
+    private SoundManager soundManager;
 
     /// <summary>
     /// Open the door
@@ -20,9 +21,11 @@ public class Door : MonoBehaviour {
 
         if (Difficulty.KeysNecessary == 0)
             Open();
+ 	soundManager = GameObject.FindGameObjectWithTag("Music").GetComponent<SoundManager>();
 	}
 	
 	void OnTriggerEnter(Collider other) {
+        soundManager.playEndSound();
         WorldGenerator.SuccessCanvas.SetActive(true);
     }
 }

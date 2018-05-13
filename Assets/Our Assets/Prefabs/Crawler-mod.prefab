@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 4862152927079546}
   - component: {fileID: 195386632639377190}
   - component: {fileID: 114803061256246470}
+  - component: {fileID: 82885372869067308}
   m_Layer: 0
   m_Name: Crawler-mod
   m_TagString: Untagged
@@ -1609,6 +1610,122 @@ Transform:
   m_Father: {fileID: 4859365300662592}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82885372869067308
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091816578959678}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 69be6ea5d94d46a4aa6a5190583d835f, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 5
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.9599304
+      inSlope: 0.20497432
+      outSlope: 0.20497432
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.21012372
+      value: 0.8394126
+      inSlope: -0.52455217
+      outSlope: -0.52455217
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3815655
+      value: 0.7004105
+      inSlope: -0.96144307
+      outSlope: -0.96144307
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.56372523
+      value: 0.49585944
+      inSlope: -1.0960846
+      outSlope: -1.0960846
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.76369107
+      value: 0.2543667
+      inSlope: -0.27271527
+      outSlope: -0.27271527
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8921384
+      value: 0.21099019
+      inSlope: -0.74845725
+      outSlope: -0.74845725
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.99040115
+      value: 0
+      inSlope: -0.39567062
+      outSlope: -0.39567062
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -0.10627139
+      outSlope: -0.10627139
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95270244608110428
 Animator:
   serializedVersion: 3

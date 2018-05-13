@@ -999,7 +999,6 @@ GameObject:
   - component: {fileID: 114311345071711528}
   - component: {fileID: 54087914581358986}
   - component: {fileID: 65629985079002668}
-  - component: {fileID: 65758210581885762}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -2122,18 +2121,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65758210581885762
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946311412276180}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.7, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65953398413692316
 BoxCollider:
