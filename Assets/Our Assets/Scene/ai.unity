@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182107ca7e5ca384baac96af96873dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endSound: {fileID: 0}
+  endSound: {fileID: 2119839420}
 --- !u!1 &979709772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

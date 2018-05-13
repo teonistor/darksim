@@ -52,7 +52,7 @@ public class WorldGenerator : MonoBehaviour {
     void Start() {
         size = Difficulty.MapSize;
         numberOfEnemies = Difficulty.EnemiesGenerated;
-        numberOfObjects = Difficulty.KeysGenerated;
+        numberOfObjects = Difficulty.KeysGenerated + Difficulty.PowerupsGenerated * 2;
        
         Player = player;
         possibleLoc = new List<Vector2>();
@@ -357,6 +357,9 @@ public class WorldGenerator : MonoBehaviour {
     void drawMap() {
         int extrapad = 20;
         Vector2 extraExitSpace = new Vector2(0,0);
+
+        int objs = 0;
+
         //double for loop that iterates through the map 
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
@@ -375,9 +378,14 @@ public class WorldGenerator : MonoBehaviour {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<Enemy>().Init(player);
                 }else if (world[i, j] == objectCode) {
-                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
-                        .GetComponent<Collectible>().Init(Collectible.Type.Light);
+                    Collectible.Type type;
+                    if (objs < Difficulty.KeysGenerated) type = Collectible.Type.Key;
+                    else if (objs < Difficulty.KeysGenerated + Difficulty.PowerupsGenerated) type = Collectible.Type.Light;
+                    else type = Collectible.Type.Speed;
 
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
+                        .GetComponent<Collectible>().Init(type);
+                    objs++;
                 }else if (world[i,j] == exitCode) {
                     float iExit = 0, jExit = 0;
                     Quaternion rot = Quaternion.identity;
