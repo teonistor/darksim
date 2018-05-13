@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class Fail : InterruptBase {
     private string template;
-    private bool controlsActive;
+    private int p, pT;
 
     void Start () {
         template = text.text;
-        controlsActive = false;
+        p = 0;
+        pT = -1000; // TODO
     }
 
     void Update () {
+        if (p > pT) {
+            p += (int)(Time.unscaledDeltaTime * pT);
+            if (p < pT) p = pT;
+        }
 
+        text.text = string.Format(template,
+            p < 0 ? show : hide, p,
+            p == pT ? show : hide, p == pT ? showControls : hide
+        );
 
-
-        if (controlsActive) {
+        if (p==pT) {
             if (Input.GetKeyDown(KeyCode.R)) {
                 SceneManager.LoadSceneAsync(1);
                 text.text = "Loading...";
                 Difficulty.RetryLevel();
+                enabled = false;
             } else if (Input.GetKeyDown(KeyCode.Q))
                 SceneManager.LoadSceneAsync(0);
         }

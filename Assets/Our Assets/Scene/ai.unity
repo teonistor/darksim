@@ -892,13 +892,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<size=55>You died</size>
+  m_Text: '<size=55>You died.</size>
 
 
-    Death: <color=red>-1000</color>
+
+    <color={0}>Death penalty: <color=red>{1:+#;-#;}</color></color>
 
 
-    <color=aqua><R></color> Retry     <color=aqua><Q></color> Exit to menu'
+
+    <color={2}><color={3}><R></color> Retry     <color={3}><Q></color> Exit to menu</color>'
 --- !u!222 &1216394422
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1216,7 +1218,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2bde018d2b9ebfa42830e15bc2423bb0, type: 3}
-    m_FontSize: 46
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -1227,14 +1229,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Paused.
+  m_Text: '<size=55>Game paused.
 
 
-    <TAB> to resume
+    </size>
 
-    <R> to restart
+    <color=aqua><TAB></color> Resume
 
-    <Q> to exit to menu'
+
+    <color=aqua><R></color> Restart level    <color=aqua><Q></color> Exit to menu'
 --- !u!222 &1832740460
 CanvasRenderer:
   m_ObjectHideFlags: 0
