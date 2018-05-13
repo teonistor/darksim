@@ -6,16 +6,18 @@ public class Score : MonoBehaviour {
     [SerializeField] private Text lvlTxt, xpTxt;
     [SerializeField] private float rollTime = 1f;
 
-    private string lvlTemplate = "Level {0}",
-                   xpTemplate = "{0} XP";
+    private string lvlTemplate, xpTemplate;
 
     private static int xp;
-
     private static Score instance;
 
 	void Start () {
+        lvlTemplate = lvlTxt.text;
         lvlTxt.text = string.Format(lvlTemplate, Difficulty.CurrentLevel);
+
+        xpTemplate = xpTxt.text;
         xpTxt.text = string.Format(xpTemplate, xp);
+
         instance = this;
 	}
 	
@@ -39,19 +41,23 @@ public class Score : MonoBehaviour {
     }
 
 
-    public static void ComputeSuccess () {
-        // Player.Health...
-        // some time measure
-        // perfect stealth bonus ?
+    public static void ComputeSuccess (out int completion, out int timeliness, out int health, out int stealth) {
+        completion = 1000;
+        //timeliness = 240000 + 20000 * Difficulty.CurrentLevel - (int)(2000 * Time.timeSinceLevelLoad);
+        health = (int)(700 * Player.Health);
+        stealth = Enemy.HasBeenChasing ? 0 : 350;
 
-        // Handle end display
+        timeliness = 2000 - (int)(2000 * Time.timeSinceLevelLoad / (120 + 10 * Difficulty.CurrentLevel));
+        // 1- (effTime/topsTime)
+        if (timeliness < 0) timeliness = 0;
+
+        xp += completion + timeliness + health + stealth;
     }
 
 
-    public static void ComputeFail() {
-        // -1000 or whatever
-
-        // Handle end display
+    public static void ComputeFail(out int penalty) {
+        penalty = -500;
+        xp += penalty;
     }
 
 

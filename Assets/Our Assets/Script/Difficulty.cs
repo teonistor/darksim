@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Difficulty : MonoBehaviour {
 
-    /* What to change by difficulty:
-     * - Stamina durations
-     * - Enemy speed
+    /* Difficulty tweak (by object collection):
+     * - Stamina duration
      * - Overhead light angle
-     * - Enemy visibility angle
  
-     * What to change by level progression:
-     * - Map size (and thus minimum distance to enemies)
-     * - Number of keys
+     * Increase by level progression:
+     * - Map size (and thus minimum distance to enemies (?))
+     * - Number of keys generated
+     * - Number of keys necessary (tends towards equal with generated?)
      * - Number of enemies
-     * 
+     * - Enemy speed
+     * - Enemy awareness params
+ 
+     * When dying, slightly decrease:
+     * - Enemy speed
+     * - Enemy awareness params
      */
 
     private static bool firstRun = true;
-    private static bool DiffNecerCollected = true;
+    private static bool DiffNeverCollected = true;
     private static bool KeyNeverCollected = true;
 
     /// <summary>
@@ -93,11 +97,10 @@ public class Difficulty : MonoBehaviour {
 
     void Awake () {
         if (firstRun) {
+            firstRun = false;
             CurrentDifficulty = TargetDifficulty = 0.5f;
-            CurrentLevel = MaxLevel = 0;
+            CurrentLevel = MaxLevel = 1;
         }
-
-        Screen.SetResolution(640, 360, true, 30);
     }
 
     void Update () {
@@ -139,8 +142,8 @@ public class Difficulty : MonoBehaviour {
     }
 
     private static void CheckFirstDiffCollect () {
-        if (DiffNecerCollected) {
-            DiffNecerCollected = false;
+        if (DiffNeverCollected) {
+            DiffNeverCollected = false;
             print("First colect difficulty token");
             // TODO
         }

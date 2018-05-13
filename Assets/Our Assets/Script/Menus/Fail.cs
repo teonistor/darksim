@@ -1,5 +1,4 @@
 ﻿using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine;
 
 public class Fail : InterruptBase {
@@ -9,7 +8,7 @@ public class Fail : InterruptBase {
     void Start () {
         template = text.text;
         p = 0;
-        pT = -1000; // TODO
+        Score.ComputeFail(out pT);
     }
 
     void Update () {

@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
     private Animator anim;
 
     public bool IsChasing { get; private set; }
+    public static bool HasBeenChasing { get; private set; }
 
     private Player player;
     private TargetIndicator indicator;
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour {
         initialPos = transform.position;
         anim = gameObject.GetComponentInChildren<Animator>();
         IsChasing = false;
+        HasBeenChasing = false;
     }
 
     public void Init (Player player) {
@@ -62,6 +64,7 @@ public class Enemy : MonoBehaviour {
             if (!IsChasing) {
                 anim.Play("crawl_fast");
                 IsChasing = true;
+                HasBeenChasing = true;
                 agent.speed = runSpeed;
                 Ambiance.AttackCount++;
             }

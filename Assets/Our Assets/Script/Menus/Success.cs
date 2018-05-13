@@ -13,11 +13,12 @@ public class Success : InterruptBase {
         //controlsActive = false;
         c = t = h = s = 0;
 
+        Score.ComputeSuccess(out cT, out tT, out hT, out sT);
         // test
-        cT = 2000;
-        tT = 500;
-        hT = 700;
-        sT = 0;
+        //cT = 2000;
+        //tT = 500;
+        //hT = 700;
+        //sT = 0;
     }
 
     void Update () {
