@@ -108,7 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b27bad5769f5240bb7433652f88846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  keyMaterial: {fileID: 2100000, guid: 597fdb79149dffc43bb363475a628370, type: 2}
+  lightMaterial: {fileID: 2100000, guid: 9bae9392aaefc5e41bd78e5529e3b0f7, type: 2}
+  speedMaterial: {fileID: 2100000, guid: 1d24b156c2d4ccc4593866f7c8aa8d02, type: 2}
   indicatorPrefab: {fileID: 1086816111560916, guid: 47d9f4b4761475c4bab9e680cfcf319a,
     type: 2}
 --- !u!114 &114931268244568830

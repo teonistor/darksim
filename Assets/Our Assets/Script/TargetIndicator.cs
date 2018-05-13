@@ -13,14 +13,16 @@ public class TargetIndicator : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        rend = GetComponent<Renderer>();
 	}
 
-    public void Init (Transform target, Camera cam, Transform player, Func<bool> condition) {
+    public void Init (Transform target, Camera cam, Transform player, Func<bool> condition, Material material=null) {
+        rend = GetComponent<Renderer>();
         this.target = target;
         this.cam = cam;
         this.player = player;
         this.condition = condition;
+        if (material != null)
+            rend.material = material;
     }
 
 	void Update () {

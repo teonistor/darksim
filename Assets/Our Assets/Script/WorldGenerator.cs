@@ -375,7 +375,9 @@ public class WorldGenerator : MonoBehaviour {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<Enemy>().Init(player);
                 }else if (world[i, j] == objectCode) {
-                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform);
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
+                        .GetComponent<Collectible>().Init(Collectible.Type.Light);
+
                 }else if (world[i,j] == exitCode) {
                     float iExit = 0, jExit = 0;
                     Quaternion rot = Quaternion.identity;

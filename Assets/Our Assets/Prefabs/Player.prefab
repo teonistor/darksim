@@ -381,7 +381,6 @@ GameObject:
   - component: {fileID: 4385093670086204}
   - component: {fileID: 20806279390666962}
   - component: {fileID: 124695491908839178}
-  - component: {fileID: 81107670347206898}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -999,6 +998,7 @@ GameObject:
   - component: {fileID: 114311345071711528}
   - component: {fileID: 54087914581358986}
   - component: {fileID: 65629985079002668}
+  - component: {fileID: 81465074483545694}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -2134,12 +2134,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!81 &81107670347206898
+--- !u!81 &81465074483545694
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1482312159907456}
+  m_GameObject: {fileID: 1946311412276180}
   m_Enabled: 1
 --- !u!95 &95853872704725468
 Animator:

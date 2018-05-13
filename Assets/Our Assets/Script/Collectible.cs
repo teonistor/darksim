@@ -3,15 +3,28 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Collectible : MonoBehaviour {
-    enum Type { Key, Light, Speed };
+    public enum Type { Key, Light, Speed };
 
-    [SerializeField] private Type type;
+    [SerializeField] private Material keyMaterial, lightMaterial, speedMaterial;
     [SerializeField] private GameObject indicatorPrefab;
+
+    private Type type;
     private TargetIndicator indicator;
     
-	void Start () {
+	public void Init (Type type) {
+        this.type = type;
         indicator = Instantiate(indicatorPrefab).GetComponent<TargetIndicator>();
-        indicator.Init(transform, Camera.main, WorldGenerator.Player.transform, () => Difficulty.KeysNecessary != Difficulty.KeysCollected);
+
+        Material material;
+        switch (type) {
+            case Type.Key: material = keyMaterial; break;
+            case Type.Light: material = lightMaterial; break;
+            default: material = speedMaterial; break;
+        }
+        GetComponent<Renderer>().material = material;
+        indicator.Init(transform, Camera.main, WorldGenerator.Player.transform,
+                       () => type == Type.Key ? Difficulty.KeysNecessary != Difficulty.KeysCollected : true,
+                       material);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -23,12 +36,12 @@ public class Collectible : MonoBehaviour {
             case Type.Speed: Difficulty.CollectSpeed(); break;
         }
 
-        StartCoroutine(destroyAnimation());
+        StartCoroutine(DestroyAnimation());
         GetComponent<Collider>().enabled = false;
         Destroy(indicator.gameObject);
     }
 
-    private IEnumerator destroyAnimation () {
+    private IEnumerator DestroyAnimation () {
         float frame = 1f / 30;
         WaitForSeconds wait = new WaitForSeconds(frame);
         frame *= 2;
