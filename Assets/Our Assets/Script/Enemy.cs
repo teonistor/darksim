@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour {
-    static readonly float epsilonTarget = 0.1f,
-                          epsilonHit = 0.6f,
-                          blindDistance = 10f,
-                          deafDistance = 2f,
-                          visionAngle = 40f,
-                          runSpeed = 4f,
-                          crawlSpeed = 1.5f;
+    private static float epsilonTarget = 0.1f,
+                         epsilonHit = 0.6f,
+                         blindDistance = 10f,
+                         deafDistance = 2f,
+                         visionAngle = 40f,
+                         runSpeed = 4f,
+                         crawlSpeed = 1.5f;
 
     [SerializeField] private GameObject indicatorPrefab;
 
@@ -21,6 +21,38 @@ public class Enemy : MonoBehaviour {
 
     public bool IsChasing { get; private set; }
     public static bool HasBeenChasing { get; private set; }
+
+    public static float BlindDistance {
+        get {
+            return blindDistance;
+        } set {
+            blindDistance = Mathf.Clamp(value, 9f, 50f);
+        }
+    }
+
+    public static float DeafDistance {
+        get {
+            return deafDistance;
+        } set {
+            deafDistance = Mathf.Clamp(value, 2f, 7f);
+        }
+    }
+
+    public static float VisionAngle {
+        get {
+            return visionAngle;
+        }  set {
+            visionAngle = Mathf.Clamp(value, 35f, 90f);
+        }
+    }
+
+    public static float RunSpeed {
+        get {
+            return runSpeed;
+        } set {
+            runSpeed = Mathf.Clamp(value, 3.8f, 6f);
+        }
+    }
 
     private Player player;
     private TargetIndicator indicator;
