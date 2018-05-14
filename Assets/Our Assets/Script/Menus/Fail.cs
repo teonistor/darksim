@@ -33,7 +33,7 @@ public class Fail : InterruptBase {
         }
 
         if (controlsActive) {
-            if (Input.GetKeyDown(KeyCode.R) && Player.Lives > 0) {
+            if (Input.GetKeyDown(KeyCode.R) && (Player.Lives > 0 || Difficulty.IsTutorial)) {
                 SceneManager.LoadSceneAsync(1);
                 text.text = "Loading...";
                 Difficulty.RetryLevel();
