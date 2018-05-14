@@ -9,8 +9,20 @@ public class Player : MonoBehaviour {
                                    runSpeed = 8f;
 
     public static Player Instance { get; private set; }
+
+    /// <summary>
+    /// Player animation actions entry point
+    /// </summary>
     public Actions PlayerActions { get; private set; }
+
+    /// <summary>
+    /// Current stamina of the player
+    /// </summary>
     public static float Stamina { get; private set; }
+
+    /// <summary>
+    /// Current health of the player
+    /// </summary>
     public static float Health { get; private set; }
 
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };

@@ -72,10 +72,10 @@ public class Score : MonoBehaviour {
 
             xp += completion + timeliness + health + stealth;
 
-            Enemy.BlindDistance += 4f;
-            Enemy.DeafDistance += 0.5f;
-            Enemy.VisionAngle += 3f;
-            Enemy.RunSpeed += 0.2f;
+            Enemy.BlindDistance += 4f * Player.Health;
+            Enemy.DeafDistance += 0.5f * Player.Health;
+            Enemy.VisionAngle += 3f * Player.Health;
+            Enemy.RunSpeed += 0.2f * Player.Health;
         }
     }
 

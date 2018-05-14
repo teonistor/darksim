@@ -49,6 +49,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    static Enemy () {
+        Reset();
+    }
+
     /// <summary>
     /// Set initial values for enemy parameters
     /// </summary>
