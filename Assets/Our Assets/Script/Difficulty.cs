@@ -48,8 +48,8 @@ public class Difficulty : MonoBehaviour {
             if (IsTutorial)
                 switch (value) {
                     case 1: MapSize = 10; KeysGenerated = 0; KeysNecessary = 0; EnemiesGenerated = 0; PowerupsGenerated = 0; break;
-                    case 2: MapSize = 15; KeysGenerated = 0; KeysNecessary = 0; EnemiesGenerated = 1; PowerupsGenerated = 0; break;
-                    case 3: MapSize = 15; KeysGenerated = 1; KeysNecessary = 1; EnemiesGenerated = 0; PowerupsGenerated = 0; break;
+                    case 2: MapSize = 15; KeysGenerated = 1; KeysNecessary = 1; EnemiesGenerated = 0; PowerupsGenerated = 0; break;
+                    case 3: MapSize = 15; KeysGenerated = 2; KeysNecessary = 2; EnemiesGenerated = 5; PowerupsGenerated = 0; break;
                     case 4: MapSize = 20; KeysGenerated = 2; KeysNecessary = 2; EnemiesGenerated = 0; PowerupsGenerated = 1; break;
                     case 5: MapSize = 25; KeysGenerated = 3; KeysNecessary = 2; EnemiesGenerated = 1; PowerupsGenerated = 1; break;
                     default:

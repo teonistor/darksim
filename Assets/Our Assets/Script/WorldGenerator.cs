@@ -48,8 +48,13 @@ public class WorldGenerator : MonoBehaviour {
     private static List<Vector2> possibleLoc;
     private static List<Vector2> possibleObjectLoc;
 
-
     void Start() {
+
+        if (Difficulty.IsTutorial) {
+            makeTutorial();
+            return;
+        }
+
         size = Difficulty.MapSize;
         numberOfEnemies = Difficulty.EnemiesGenerated;
         numberOfObjects = Difficulty.KeysGenerated + Difficulty.PowerupsGenerated * 2;
@@ -450,6 +455,108 @@ public class WorldGenerator : MonoBehaviour {
         loc.y = 0.5f;
         return loc;
     }}
+    
+    public static bool hasLoc() {
+        return possibleLoc.Count > 0;
+    }
+
+    public void makeTutorial() {
+        if(Difficulty.CurrentLevel > 4) {
+            //do tutorial end
+            return;
+        }
+        world = RoomData.tutorials[Difficulty.CurrentLevel-1];
+        possibleLoc = new List<Vector2>();
+        int height = world.GetLength(0);
+        int width = world.GetLength(1);
+
+        Player = player;
+        PauseCanvas = pauseCanvas;
+        SuccessCanvas = successCanvas;
+        FailCanvas = failCanvas;
+
+        int extrapad = 20;
+        Vector2 extraExitSpace = new Vector2(0, 0);
+
+        switch (Difficulty.CurrentLevel) {
+            default: exitSide = 3; break;
+        }
+
+        //1->wall; 2->enemy; 3->key; 4->exit; 5->light; 6->speed; 7->player
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                if (world[i, j] == wallCode) {
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+                } else if (world[i, j] == enemyCode) {
+                    GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
+                    newEnemy.GetComponent<Enemy>().Init(player);
+                } else if (world[i, j] == objectCode) {
+                    Collectible.Type type = Collectible.Type.Key;
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
+                        .GetComponent<Collectible>().Init(type);
+                } else if (world[i, j] == exitCode) {
+                    float iExit = 0, jExit = 0;
+                    Quaternion rot = Quaternion.identity;
+                    switch (exitSide) {
+                        case 0:
+                        iExit = i; jExit = j - 0.5f;
+                        extraExitSpace = new Vector2(i, j - 1);
+                        rot = Quaternion.Euler(-90, 0, 0);
+                        break;
+
+                        case 1:
+                        iExit = i - 0.5f; jExit = j;
+                        extraExitSpace = new Vector2(i - 1, j);
+                        rot = Quaternion.Euler(-90, 90, 0);
+                        break;
+
+                        case 2:
+                        iExit = i; jExit = j + 0.5f;
+                        extraExitSpace = new Vector2(i, j + 1);
+                        rot = Quaternion.Euler(-90, 180, 0);
+                        break;
+
+                        case 3:
+                        iExit = i + 0.5f; jExit = j;
+                        extraExitSpace = new Vector2(i + 1, j);
+                        rot = Quaternion.Euler(-90, 270, 0);
+                        break;
+                    }
+                    Instantiate(exit, new Vector3(iExit, exit.transform.localScale.y / 2, jExit), rot, transform);
+                } else if (world[i, j] == 7) {
+                    player.transform.position = new Vector3(i, player.transform.position.y, j);
+                }
+            }
+        }
+        //add more pad
+        for (int i = -extrapad; i < 0; ++i) {
+            for (int j = 0; j < width; ++j) {
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = height; i < height + extrapad; ++i) {
+            for (int j = 0; j < width; ++j) {
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = -extrapad; i < height + extrapad; ++i) {
+            for (int j = -extrapad; j < 0; ++j) {
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        for (int i = -extrapad; i < height + extrapad; ++i) {
+            for (int j = width; j < width + extrapad; ++j) {
+                if (i != extraExitSpace.x || j != extraExitSpace.y)
+                    Instantiate(wall, new Vector3(i, wall.transform.localScale.y / 2, j), Quaternion.identity, transform);
+            }
+        }
+        // Update navigation with wall info
+        GetComponentInParent<LocalNavMeshBuilder>().UpdateNavMesh();
+
+    }
 
     public int[,] getWorld() {
         return world;

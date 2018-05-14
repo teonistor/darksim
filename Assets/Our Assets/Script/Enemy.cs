@@ -123,7 +123,9 @@ public class Enemy : MonoBehaviour {
 
         // Last target reached and player not visible => give up
         } else if (Vector3.SqrMagnitude(agent.destination - transform.position) < epsilonTarget) {
-            agent.destination = WorldGenerator.randomLoc;
+            if(WorldGenerator.hasLoc())
+                agent.destination = WorldGenerator.randomLoc;
+            
             if (IsChasing) {
                 anim.Play("crawl");
                 audio.volume = 0.5f;
