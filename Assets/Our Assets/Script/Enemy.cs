@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
     private NavMeshAgent agent;
     private Vector3 initialPos;
     private Animator anim;
+    private AudioSource audio;
 
     public bool IsChasing { get; private set; }
     public static bool HasBeenChasing { get; private set; }
@@ -61,6 +62,7 @@ public class Enemy : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         initialPos = transform.position;
         anim = gameObject.GetComponentInChildren<Animator>();
+        audio = gameObject.GetComponentInChildren<AudioSource>();
         IsChasing = false;
         HasBeenChasing = false;
     }
@@ -95,6 +97,7 @@ public class Enemy : MonoBehaviour {
             agent.destination = player.transform.position;
             if (!IsChasing) {
                 anim.Play("crawl_fast");
+                audio.volume = 1f;
                 IsChasing = true;
                 HasBeenChasing = true;
                 agent.speed = runSpeed;
@@ -112,11 +115,15 @@ public class Enemy : MonoBehaviour {
             agent.destination = WorldGenerator.randomLoc;
             if (IsChasing) {
                 anim.Play("crawl");
+                audio.volume = 0.7f;
                 IsChasing = false;
                 agent.speed = crawlSpeed;
                 Ambiance.AttackCount--;
             }
         }
+    }
 
+    void LateUpdate () {
+        audio.enabled = Time.timeScale > 0f;
     }
 }
