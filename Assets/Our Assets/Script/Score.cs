@@ -3,22 +3,37 @@ using UnityEngine;
 using System.Collections;
 
 public class Score : MonoBehaviour {
-    static readonly string hide = "<color=#0000>{0}</color>";
+    static readonly string[] tutorialMessages = new string[] {
+         "Walk out the door to complete a level\n<color=aqua>WASD</color> / <color=aqua>arrow keys</color> to move",
+         "Avoid crawlers – they'll damage your health and kill you\nHold down <color=aqua>Shift</color> to sprint (consumes stamina)",
+         "Collect Unity Logo keys to open the door",
+         //"Flashlight powerups will increase the area that is lit, but decrease your\nstamina duration; Speed powerups will do the reverse",
+         "Collect Flashlight and Speed powerups to\nbalance light area versus stamina duration",
+         "Sometimes not all keys on the map are\nnecessary to open the door" };
 
-    [SerializeField] private Text lvlTxt, xpTxt;
+
     [SerializeField] private float rollTime = 1f;
 
-    private string lvlTemplate, xpTemplate;
+    private Text text;
+    private string template;
 
     private static int xp;
     private static Score instance;
 
 	void Start () {
-        lvlTemplate = Difficulty.IsTutorial ? hide : lvlTxt.text;
-        lvlTxt.text = string.Format(lvlTemplate, Difficulty.CurrentLevel);
+        text = GetComponentInChildren<Text>();
+        template = text.text;
 
-        xpTemplate = Difficulty.IsTutorial ? hide : xpTxt.text;
-        xpTxt.text = string.Format(xpTemplate, xp);
+        if (Difficulty.IsTutorial)
+            text.text = tutorialMessages[Difficulty.CurrentLevel-1];
+        else
+            text.text= string.Format(template, Difficulty.CurrentLevel, xp);
+
+        //lvlTemplate = Difficulty.IsTutorial ? hide : lvlTxt.text;
+        //lvlTxt.text = string.Format(lvlTemplate, Difficulty.CurrentLevel);
+
+        //xpTemplate = Difficulty.IsTutorial ? hide : xpTxt.text;
+        //xpTxt.text = string.Format(xpTemplate, xp);
 
         instance = this;
 	}
@@ -32,10 +47,10 @@ public class Score : MonoBehaviour {
             b = xp + increment;
         xp += increment;
         for (; a<=b; a +=(int) (increment * Time.deltaTime * rollTime)) {
-            xpTxt.text = string.Format(xpTemplate, a);
+            text.text = string.Format(template, Difficulty.CurrentLevel, a);
             yield return new WaitForEndOfFrame();
         }
-        xpTxt.text = string.Format(xpTemplate, b);
+        text.text = string.Format(template, Difficulty.CurrentLevel, b);
     }
 
     public static void Reset () {
@@ -67,6 +82,7 @@ public class Score : MonoBehaviour {
 
 
     public static void KeyCollection() {
-        instance.StartCoroutine(instance.rollXP(100));
+        if (!Difficulty.IsTutorial)
+            instance.StartCoroutine(instance.rollXP(100));
     }
 }
