@@ -38,6 +38,7 @@ public class Collectible : MonoBehaviour {
         }
 
         StartCoroutine(DestroyAnimation());
+        SoundManager.PlayCollectionSound();
         GetComponent<Collider>().enabled = false;
         if (indicator != null)
             Destroy(indicator.gameObject);

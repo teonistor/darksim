@@ -750,7 +750,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182107ca7e5ca384baac96af96873dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endSound: {fileID: 2119839420}
+  occasionalSound: {fileID: 2119839422}
+  bite: {fileID: 8300000, guid: d94338b1c5e0ea74d81d4a19310176a4, type: 3}
+  end: {fileID: 8300000, guid: eeac17eecb59ac346ad7f930751034a9, type: 3}
+  collection: {fileID: 8300000, guid: 0b972192b6a0b42e19182b3aaa54e819, type: 3}
 --- !u!1 &979709772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,7 +1536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2119839421
 Transform:
   m_ObjectHideFlags: 0
@@ -1556,7 +1559,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: eeac17eecb59ac346ad7f930751034a9, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

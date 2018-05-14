@@ -109,6 +109,7 @@ public class Player : MonoBehaviour {
             if (Time.time - lastDamageTaken > 1f) {
                 lastDamageTaken = Time.time;
                 Health -= Difficulty.HealthDrop;
+                SoundManager.PlayBiteSound();
                 if (Health <= 0f) {
                     enabled = false;
                     PlayerActions.Death();
@@ -123,5 +124,6 @@ public class Player : MonoBehaviour {
     private IEnumerator delayFailMenu () {
         yield return new WaitForSeconds(3f); // Duration of death animation
         WorldGenerator.FailCanvas.SetActive(true);
+        SoundManager.PlayEndSound();
     }
 }

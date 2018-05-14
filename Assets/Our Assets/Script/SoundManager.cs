@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    [SerializeField] private GameObject endSound;
-    private static bool first = true;
+    [SerializeField] private AudioSource occasionalSound;
+    [SerializeField] private AudioClip bite, end, collection;
+
+    private static SoundManager instance = null;
 
     private void Awake() {
-        if (first) {
-            first = false;
+        if (instance == null) {
+            instance = this;
             DontDestroyOnLoad(gameObject);
         } else {
             Destroy(gameObject);
         }
     }
 
-    public void playEndSound() {
-        endSound.SetActive(false);
-        endSound.SetActive(true);
+    public static void PlayEndSound () {
+        instance.occasionalSound.PlayOneShot(instance.end);
+    }
+
+    public static void PlayBiteSound () {
+        instance.occasionalSound.PlayOneShot(instance.bite);
+    }
+
+    public static void PlayCollectionSound () {
+        instance.occasionalSound.PlayOneShot(instance.collection);
     }
 }

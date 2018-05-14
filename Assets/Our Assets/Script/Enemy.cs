@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour {
             agent.destination = player.transform.position;
             if (!IsChasing) {
                 anim.Play("crawl_fast");
-                audio.volume = 1f;
+                audio.volume = 0.8f;
                 IsChasing = true;
                 HasBeenChasing = true;
                 agent.speed = runSpeed;
@@ -115,7 +115,7 @@ public class Enemy : MonoBehaviour {
             agent.destination = WorldGenerator.randomLoc;
             if (IsChasing) {
                 anim.Play("crawl");
-                audio.volume = 0.7f;
+                audio.volume = 0.5f;
                 IsChasing = false;
                 agent.speed = crawlSpeed;
                 Ambiance.AttackCount--;
