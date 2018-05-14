@@ -140,7 +140,6 @@ public class Difficulty : MonoBehaviour {
     }
 
     static Difficulty () {
-        CurrentDifficulty = TargetDifficulty = 0.5f;
         CurrentLevel = MaxLevel = 1;
     }
 
@@ -169,6 +168,7 @@ public class Difficulty : MonoBehaviour {
 
     public static void BeginGame (bool tutorial=false) {
         IsTutorial = tutorial;
+        CurrentDifficulty = TargetDifficulty = 0.5f;
         KeysCollected = 0;
         CurrentLevel = 1;
     }
