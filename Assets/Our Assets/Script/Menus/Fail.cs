@@ -10,6 +10,12 @@ public class Fail : InterruptBase {
         template = text.text;
         p = 0;
         Score.ComputeFail(out pT);
+
+        if (!Difficulty.IsTutorial && Player.Lives < 1) {
+            template = template
+                .Replace("You died.", "You lost your final life :(")
+                .Replace("<color={3}><R></color> Retry     ", "");
+        }
     }
 
     void Update () {
@@ -27,7 +33,7 @@ public class Fail : InterruptBase {
         }
 
         if (controlsActive) {
-            if (Input.GetKeyDown(KeyCode.R)) {
+            if (Input.GetKeyDown(KeyCode.R) && Player.Lives > 0) {
                 SceneManager.LoadSceneAsync(1);
                 text.text = "Loading...";
                 Difficulty.RetryLevel();

@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour {
             Difficulty.BeginGame();
             Score.Reset();
             Enemy.Reset();
+            Player.Reset();
             SceneManager.LoadSceneAsync(1);
 
         } else if (Input.GetKeyDown(KeyCode.T)) {
@@ -30,6 +31,7 @@ public class MainMenu : MonoBehaviour {
             Difficulty.BeginGame(true);
             Score.Reset();
             Enemy.Reset();
+            Player.Reset();
             SceneManager.LoadSceneAsync(1);
         } else if (Input.GetKeyDown(KeyCode.Q)) {
             Application.Quit();

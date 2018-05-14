@@ -25,6 +25,11 @@ public class Player : MonoBehaviour {
     /// </summary>
     public static float Health { get; private set; }
 
+    /// <summary>
+    /// Current life count of the player
+    /// </summary>
+    public static int Lives { get; private set; }
+
     private int[] blockedMove = new int[] { 0, 0, 0, 0 };
     private float lastDamageTaken = 0f;
     private bool running = false;
@@ -68,6 +73,16 @@ public class Player : MonoBehaviour {
         }
     }
 
+    static Player () {
+        Reset();
+    }
+
+    /// <summary>
+    /// Reset life count to 3 if the actual game is in progress, or to 0 if tutorial in progress
+    /// </summary>
+    public static void Reset() {
+        Lives = Difficulty.IsTutorial ? 0 : 3;
+    }
 
     void Update () {
         Vector3 v = new Vector3();
@@ -125,6 +140,7 @@ public class Player : MonoBehaviour {
                 if (Health <= 0f) {
                     enabled = false;
                     PlayerActions.Death();
+                    Lives--;
                     StartCoroutine(delayFailMenu());
                 } else {
                     PlayerActions.Damage();
