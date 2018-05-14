@@ -13,18 +13,19 @@ public class Collectible : MonoBehaviour {
     
 	public void Init (Type type) {
         this.type = type;
-        indicator = Instantiate(indicatorPrefab).GetComponent<TargetIndicator>();
 
         Material material;
         switch (type) {
-            case Type.Key: material = keyMaterial; break;
+            case Type.Key: material = keyMaterial;
+                indicator = Instantiate(indicatorPrefab).GetComponent<TargetIndicator>();
+                indicator.Init(transform, Camera.main, WorldGenerator.Player.transform,
+                       () => Difficulty.KeysNecessary != Difficulty.KeysCollected);
+                break;
             case Type.Light: material = lightMaterial; break;
             default: material = speedMaterial; break;
         }
+
         GetComponent<Renderer>().material = material;
-        indicator.Init(transform, Camera.main, WorldGenerator.Player.transform,
-                       () => type == Type.Key ? Difficulty.KeysNecessary != Difficulty.KeysCollected : true,
-                       material);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -38,7 +39,8 @@ public class Collectible : MonoBehaviour {
 
         StartCoroutine(DestroyAnimation());
         GetComponent<Collider>().enabled = false;
-        Destroy(indicator.gameObject);
+        if (indicator != null)
+            Destroy(indicator.gameObject);
     }
 
     private IEnumerator DestroyAnimation () {
