@@ -266,7 +266,6 @@ public class WorldGenerator : MonoBehaviour {
                     if (fits) { 
                         for (int k = 0; k < RoomData.rooms[roomId].Length; ++k) {
                             for (int r = 0; r < RoomData.rooms[roomId][k].Length; ++r) {
-
                                 if (i + k < size && j + r < size) {
                                     world[i + k, j + r] = RoomData.rooms[roomId][k][r];
                                     roomMap[i + k, j + r] = 1;
@@ -360,6 +359,10 @@ public class WorldGenerator : MonoBehaviour {
     /// Function that draws the world.
     /// </summary>
     void drawMap() {
+        int numberOfKeys = Difficulty.KeysGenerated;
+        int numberOfLight = Difficulty.PowerupsGenerated;
+        int numberOfSpeed = Difficulty.PowerupsGenerated;
+
         int extrapad = 20;
         Vector2 extraExitSpace = new Vector2(0,0);
 
@@ -384,9 +387,16 @@ public class WorldGenerator : MonoBehaviour {
                     newEnemy.GetComponent<Enemy>().Init(player);
                 }else if (world[i, j] == objectCode) {
                     Collectible.Type type;
-                    if (objs < Difficulty.KeysGenerated) type = Collectible.Type.Key;
-                    else if (objs < Difficulty.KeysGenerated + Difficulty.PowerupsGenerated) type = Collectible.Type.Light;
-                    else type = Collectible.Type.Speed;
+                    int chance = Random.Range(1, numberOfKeys + numberOfLight + numberOfSpeed + 1);
+                    if (chance <= numberOfKeys) {
+                        type = Collectible.Type.Key;
+                        numberOfKeys--;
+                    } else if (chance <= numberOfKeys + numberOfLight) {
+                        type = Collectible.Type.Light;
+                        numberOfLight--;
+                    } else {
+                        type = Collectible.Type.Speed;
+                    }
 
                     Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
                         .GetComponent<Collectible>().Init(type);
