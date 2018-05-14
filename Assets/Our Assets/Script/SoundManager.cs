@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void playEndSound() {
+        endSound.SetActive(false);
         endSound.SetActive(true);
     }
 }
