@@ -71,6 +71,11 @@ public class Score : MonoBehaviour {
             if (timeliness < 0) timeliness = 0;
 
             xp += completion + timeliness + health + stealth;
+
+            Enemy.BlindDistance += 4f;
+            Enemy.DeafDistance += 0.5f;
+            Enemy.VisionAngle += 3f;
+            Enemy.RunSpeed += 0.2f;
         }
     }
 
@@ -78,6 +83,15 @@ public class Score : MonoBehaviour {
     public static void ComputeFail(out int penalty) {
         penalty = Difficulty.IsTutorial ? 0 : -500;
         xp += penalty;
+        if (xp < 0) {
+            penalty -= xp;
+            xp = 0;
+        }
+
+        Enemy.BlindDistance -= 0.7f;
+        Enemy.DeafDistance -= 0.2f;
+        Enemy.VisionAngle -= 1f;
+        Enemy.RunSpeed -= 0.1f;
     }
 
 

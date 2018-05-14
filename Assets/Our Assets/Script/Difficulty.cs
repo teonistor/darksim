@@ -60,7 +60,7 @@ public class Difficulty : MonoBehaviour {
                 MapSize = (value + 6) * 5;
                 KeysGenerated = EnemiesGenerated = (value + 7) / 2;
                 KeysNecessary = value / 2 + 3;
-                EnemiesGenerated = value / 2 + 3 + value / 5;
+                EnemiesGenerated = value / 2 + 1 + value / 5;
                 PowerupsGenerated = (value + 6) / 4;
             }
         }

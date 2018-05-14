@@ -182,5 +182,17 @@ public class RoomData{
         }
     };
 
-
+    // Tutorial rooms TODO
+    public static int[][][] tutorials = new int[][][] {
+        
+        new int[][] {
+            new int[] {0, 0, 0},
+            new int[] {0, 1, 0},
+            new int[] {0, 1, 0},
+            new int[] {0, 1, 0},
+            new int[] {0, 1, 0},
+            new int[] {0, 1, 0},
+            new int[] {0, 0, 0},
+        }
+    };
 }

@@ -5,13 +5,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour {
-    private static float epsilonTarget = 0.1f,
-                         epsilonHit = 0.6f,
-                         blindDistance = 10f,
-                         deafDistance = 2f,
-                         visionAngle = 40f,
-                         runSpeed = 4f,
-                         crawlSpeed = 1.5f;
+    private static float epsilonTarget, epsilonHit, blindDistance, deafDistance, visionAngle, runSpeed, crawlSpeed;
 
     [SerializeField] private GameObject indicatorPrefab;
 
@@ -43,7 +37,7 @@ public class Enemy : MonoBehaviour {
         get {
             return visionAngle;
         }  set {
-            visionAngle = Mathf.Clamp(value, 35f, 90f);
+            visionAngle = Mathf.Clamp(value, 30f, 90f);
         }
     }
 
@@ -53,6 +47,19 @@ public class Enemy : MonoBehaviour {
         } set {
             runSpeed = Mathf.Clamp(value, 3.8f, 6f);
         }
+    }
+
+    /// <summary>
+    /// Set initial values for enemy parameters
+    /// </summary>
+    public static void Reset () {
+        epsilonTarget = 0.1f;
+        epsilonHit = 0.6f;
+        blindDistance = 10f;
+        deafDistance = 2f;
+        visionAngle = 35f;
+        runSpeed = 4f;
+        crawlSpeed = 1.5f;
     }
 
     private Player player;

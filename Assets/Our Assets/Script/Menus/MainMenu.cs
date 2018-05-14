@@ -22,12 +22,14 @@ public class MainMenu : MonoBehaviour {
             text.text = "Loading...";
             Difficulty.BeginGame();
             Score.Reset();
+            Enemy.Reset();
             SceneManager.LoadSceneAsync(1);
 
         } else if (Input.GetKeyDown(KeyCode.T)) {
             text.text = "Loading...";
             Difficulty.BeginGame(true);
             Score.Reset();
+            Enemy.Reset();
             SceneManager.LoadSceneAsync(1);
         } else if (Input.GetKeyDown(KeyCode.Q)) {
             Application.Quit();
