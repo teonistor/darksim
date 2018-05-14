@@ -28,7 +28,8 @@ public class SoundManager : MonoBehaviour {
     }
 
     public static void PlayEndSound () {
-        instance.occasionalSound.PlayOneShot(instance.end);
+        if (!Difficulty.IsTutorial)
+            instance.occasionalSound.PlayOneShot(instance.end);
     }
 
     public static void PlayBiteSound () {
