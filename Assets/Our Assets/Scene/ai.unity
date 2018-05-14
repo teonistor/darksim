@@ -265,8 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df62d1600dd79b54da5dab36f4fde2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lvlTxt: {fileID: 461673515}
-  xpTxt: {fileID: 0}
   rollTime: 0.7
 --- !u!1 &461673513
 GameObject:
@@ -653,11 +651,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d0865e18d18c7cf4898c7e575c7799e3, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.507
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -749,10 +747,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182107ca7e5ca384baac96af96873dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  occasionalSound: {fileID: 2119839422}
   bite: {fileID: 8300000, guid: d94338b1c5e0ea74d81d4a19310176a4, type: 3}
   end: {fileID: 8300000, guid: eeac17eecb59ac346ad7f930751034a9, type: 3}
   collection: {fileID: 8300000, guid: 0b972192b6a0b42e19182b3aaa54e819, type: 3}
+  backgroundClips:
+  - {fileID: 8300000, guid: 0e2f667fdf0a83849bcbabf2b4438187, type: 3}
+  - {fileID: 8300000, guid: 56c195b50e15c4f49a3d37c0d5869e63, type: 3}
+  - {fileID: 8300000, guid: d0865e18d18c7cf4898c7e575c7799e3, type: 3}
+  occasionalSound: {fileID: 2119839422}
 --- !u!1 &979709772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1487,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

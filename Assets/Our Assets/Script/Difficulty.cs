@@ -136,28 +136,35 @@ public class Difficulty : MonoBehaviour {
     /// </summary>
     public static bool IsLastTutorial { get { return IsTutorial && currentLevel == 5; } }
 
-    void Awake () {
-    }
 
     static Difficulty () {
         CurrentLevel = MaxLevel = 1;
+        CurrentDifficulty = TargetDifficulty = 0.5f;
     }
 
     void Update () {
         CurrentDifficulty = Mathf.MoveTowards(CurrentDifficulty, TargetDifficulty, Time.deltaTime * 0.15f);
     }
 
-
+    /// <summary>
+    /// Notify that a speed powerup was collected.
+    /// </summary>
     public static void CollectSpeed () {
         CheckFirstDiffCollect();
         TargetDifficulty = Mathf.Clamp01(TargetDifficulty - DifficultyIncrement);
     }
 
+    /// <summary>
+    /// Notify that a light powerup was collected.
+    /// </summary>
     public static void CollectLight () {
         CheckFirstDiffCollect();
         TargetDifficulty = Mathf.Clamp01(TargetDifficulty + DifficultyIncrement);
     }
 
+    /// <summary>
+    /// Notify that a key was collected.
+    /// </summary>
     public static void CollectKey () {
         CheckFirstKeyCollect();
         KeysCollected++;
@@ -166,6 +173,10 @@ public class Difficulty : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Reset certain counters for beginning a game
+    /// </summary>
+    /// <param name="tutorial">Whether the tutorial is being begun rather than the actual game (default false)</param>
     public static void BeginGame (bool tutorial=false) {
         IsTutorial = tutorial;
         CurrentDifficulty = TargetDifficulty = 0.5f;
@@ -173,10 +184,16 @@ public class Difficulty : MonoBehaviour {
         CurrentLevel = 1;
     }
 
+    /// <summary>
+    /// Reset key counter when restarting a level
+    /// </summary>
     public static void RetryLevel () {
         KeysCollected = 0;
     }
 
+    /// <summary>
+    /// Reset key counter and increment level count
+    /// </summary>
     public static void NextLevel () {
         KeysCollected = 0;
         CurrentLevel++;
