@@ -461,8 +461,7 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public void makeTutorial() {
-        if(Difficulty.CurrentLevel > 4) {
-            //do tutorial end
+        if(Difficulty.CurrentLevel > 5) {
             return;
         }
         world = RoomData.tutorials[Difficulty.CurrentLevel-1];
@@ -490,6 +489,7 @@ public class WorldGenerator : MonoBehaviour {
                 } else if (world[i, j] == enemyCode) {
                     GameObject newEnemy = Instantiate(enemy, new Vector3(i, enemy.transform.localScale.y / 2, j), Quaternion.identity);
                     newEnemy.GetComponent<Enemy>().Init(player);
+                    newEnemy.GetComponentInChildren<Animator>().Play("Idle");
                 } else if (world[i, j] == objectCode) {
                     Collectible.Type type = Collectible.Type.Key;
                     Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
@@ -523,6 +523,14 @@ public class WorldGenerator : MonoBehaviour {
                         break;
                     }
                     Instantiate(exit, new Vector3(iExit, exit.transform.localScale.y / 2, jExit), rot, transform);
+                } else if (world[i, j] == 5) {
+                    Collectible.Type type = Collectible.Type.Light;
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
+                        .GetComponent<Collectible>().Init(type);
+                } else if (world[i, j] == 6) {
+                    Collectible.Type type = Collectible.Type.Speed;
+                    Instantiate(collectible, new Vector3(i, collectible.transform.localScale.y * 2, j), Quaternion.identity, transform)
+                        .GetComponent<Collectible>().Init(type);
                 } else if (world[i, j] == 7) {
                     player.transform.position = new Vector3(i, player.transform.position.y, j);
                 }

@@ -45,7 +45,7 @@ public class Success : InterruptBase {
         }
 
         if (controlsActive) {
-            if (Input.GetKeyDown(KeyCode.E)) {
+            if (Input.GetKeyDown(KeyCode.E) && !Difficulty.IsLastTutorial) {
                 SceneManager.LoadSceneAsync(1);
                 text.text = "Loading...";
                 Difficulty.NextLevel();

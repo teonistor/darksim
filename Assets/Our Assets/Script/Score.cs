@@ -5,8 +5,8 @@ using System.Collections;
 public class Score : MonoBehaviour {
     static readonly string[] tutorialMessages = new string[] {
          "Walk out the door to complete a level\n<color=aqua>WASD</color> / <color=aqua>arrow keys</color> to move",
-         "Avoid crawlers – they'll damage your health and kill you\nHold down <color=aqua>Shift</color> to sprint (consumes stamina)",
          "Collect Unity Logo keys to open the door",
+         "Avoid crawlers – they'll damage your health and kill you\nHold down <color=aqua>Shift</color> to sprint (consumes stamina)",
          //"Flashlight powerups will increase the area that is lit, but decrease your\nstamina duration; Speed powerups will do the reverse",
          "Collect Flashlight and Speed powerups to\nbalance light area versus stamina duration",
          "Sometimes not all keys on the map are\nnecessary to open the door" };
